@@ -203,12 +203,20 @@ exports.about = function(req, res){
 };
 
 exports.auth_twitter = passport.authenticate('twitter',
-    {successRedirect: '/create-profile', failureRedirect: '/', failureFlash: true }
+    {successRedirect: '/new', failureRedirect: '/', failureFlash: true }
 );
 
 exports.log_out = function(req, res){
     req.logout();
     res.redirect('/');
+};
+
+exports.new_profile = function(req, res){
+    if(req.user.artist_name != null){
+        return res.redirect('/profiles/' + req.user.slug);
+    }else{
+        return res.redirect('/create-profile');
+    }
 };
 
 exports.create_profile = function(req, res){
@@ -240,7 +248,14 @@ exports.profile = function(req, res){
         if(user == null){
             return res.send(404);
         }
-        res.render('profile', {user:utils.getUser(req), message: req.flash('error'), performer: user});
+
+        db.events.find({ "user.slug" : user.slug}, function(err, events){
+            if(err){
+                return res.redirect('/');
+            }
+
+            res.render('profile', {user:utils.getUser(req), message: req.flash('error'), performer: user, events: events});
+        });
     });
 };
 
