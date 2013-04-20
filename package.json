@@ -1,0 +1,23 @@
+{
+  "name": "busker",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express": "3.1.0",
+    "jade": "*",
+    "less-middleware": "*",
+    "mongodb": "~1.2.13",
+    "passport-local": "~0.1.6",
+    "passport": "~0.1.16",
+    "connect-flash": "~0.1.0",
+    "bcrypt": "~0.7.5",
+    "validator": "~0.4.27",
+    "underscore": "~1.4.4",
+    "connect-mongodb": "~1.1.5",
+    "mongojs": "~0.7.2",
+    "restler": "~2.0.1"
+  }
+}
