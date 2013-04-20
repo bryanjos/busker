@@ -36,16 +36,21 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+app.get('/logout', routes.log_out);
+
 app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback', routes.auth_twitter);
-app.get('/logout', routes.log_out);
-app.get("/events", routes.events);
-app.get("/event", routes.event);
+
 app.get("/create-profile", routes.create_profile);
 app.post("/create-profile", routes.create_profile_post);
-app.get("/profile", routes.profile);
-app.get("/new-event", routes.new_event);
-app.post("/new-event", routes.new_event);
+
+app.get("/profiles/:slug", routes.profile);
+app.get("/profiles/:slug/events", routes.performer_events);
+app.get("/profiles/:slug/events/create", routes.new_event);
+app.post("/profiles/:slug/events/create", routes.new_event_post);
+app.get("/profiles/:slug/events/:id", routes.event);
+
+app.get("/events", routes.events);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

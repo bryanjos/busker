@@ -10,12 +10,13 @@ var mongojs = require('mongojs')
     , config = require('../config');
 
 
-var db = mongojs(config.DB_NAME, ['users', 'events' ]);
+var db = mongojs(config.DB_NAME, ['users', 'performers', 'events' ]);
 
 
 /*
 user schema
 {
+    _id,
     twitter_id,
     displayName,
     username,
@@ -25,6 +26,19 @@ user schema
 }
 */
 
+/*
+ performer schema
+ {
+    _id,
+    artist_name,
+    slug,
+    image,
+    digital_tip_jar_url,
+    user,
+    created
+ }
+ */
+
 
 /*
  event schema
@@ -33,6 +47,8 @@ user schema
     location,
     start,
     end,
+    performer_slug,
+    performer,
     created
  }
  */
@@ -79,48 +95,34 @@ passport.deserializeUser(function(twitter_id, done) {
 });
 
 
-validateSignUp = function(req, callback){
+validateNewProfile = function(req, callback){
     try{
-        check(req.body.email, 'Email Required').notEmpty();
-        check(req.body.username, 'Username Required').notEmpty();
-        check(req.body.password, 'Password Required').notEmpty();
-        check(req.body.email, 'Please enter a valid email').isEmail();
-        db.users.findOne({username: req.body.username}, function(error, user){
-            if(user){
-                e = {};
-                e.message = 'Username taken';
-                callback(e, null);
-            }else{
-                db.users.findOne({email: req.body.email}, function(error, user){
-                    if(user){
-                        e = {};
-                        e.message = 'Email taken';
-                        callback(e, null);
-                    }else{
-                        var user = {
-                            username: req.body.username,
-                            password: bcrypt.hashSync(req.body.password, config.BCRYPT_WORK_FACTOR),
-                            email: req.body.email,
-                            created: Date.now
-                        };
+        check(req.body.artist_name, 'Artist Name Required').notEmpty();
+        var performer = {};
+        performer.artist_name = req.body.artist_name;
+        performer.slug = util.slugify(req.body.artist_name);
+        performer.description = req.body.description;
+        performer.image = req.body.image;
+        performer.digital_tip_jar_url = req.body.digital_tip_jar_url;
+        performer.user = req.user;
 
-                        callback(null, user);
-                    }
-                });
-            }
-        });
+        callback(null, performer);
 
     } catch (e) {
         callback(e, null);
     }
 };
 
-validateUpdate = function(req, callback){
+validateUpdateProfile = function(req, callback){
     try{
-        check(req.body.email, 'Email Required').notEmpty();
-        check(req.body.email, 'Please enter a valid email').isEmail();
+        check(req.body.artist_name, 'Artist Name Required').notEmpty();
 
-        db.users.findOne({email: req.body.email}, function(error, user){
+        db.performers.findOne({_id: req.body._id}, function(error, performer){
+            if(performer == null){
+                e = {};
+                e.message = 'Email taken';
+                callback(e, null);
+            }
             if(user && user.username != req.user.username){
                 e = {};
                 e.message = 'Email taken';
@@ -255,9 +257,14 @@ exports.user_profile = function(req, res){
     });
 };
 
+exports.performer_events = function(req, res){
+    res.render('events');
+};
+
 exports.events = function(req, res){
     res.render('events');
 };
+
 
 exports.event = function(req, res){
     res.render('event');
