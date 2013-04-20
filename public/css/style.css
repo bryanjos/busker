@@ -8929,6 +8929,24 @@ ul.icons li [class*=" icon-"] {
 .icon-folder-open-alt:before {
   content: "\f115";
 }
+@media (min-width: 1200px) {
+  
+}
+@media (max-width: 767px) {
+  
+}
+@media (min-width: 768px) and (max-width: 979px) {
+  
+}
+body {
+  min-width: 500px;
+}
+@media (max-width: 767px) {
+  body {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
 .heading-font {
   font-family: 'Noto Serif', serif;
 }
@@ -8937,6 +8955,12 @@ ul.icons li [class*=" icon-"] {
   background-repeat: repeat-x;
   height: 46px;
   padding-top: 20px;
+}
+@media (max-width: 767px) {
+  #header {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 #header h1 {
   font-family: 'Noto Serif', serif;
@@ -8971,7 +8995,7 @@ ul.icons li [class*=" icon-"] {
 }
 #big-info {
   background-image: url('/img/banner.png');
-  background-size: 100%;
+  background-size: 100% 100%;
   min-height: 391px;
   color: #fff;
   text-align: center;
@@ -8983,6 +9007,21 @@ ul.icons li [class*=" icon-"] {
   text-align: center;
   margin-top: 80px;
 }
+@media (max-width: 1200px) {
+  #big-info h2 {
+    margin-top: 60px;
+    font-size: 30px;
+    line-height: 34px;
+  }
+}
+@media (min-width: 768px) and (max-width: 979px) {
+  
+}
+@media (max-width: 767px) {
+  #big-info h2 {
+    margin-top: 30px;
+  }
+}
 #big-info p {
   font-family: 'Noto Serif', serif;
   text-shadow: 1px 1px 7px #000;
@@ -8993,6 +9032,16 @@ ul.icons li [class*=" icon-"] {
   padding-top: 30px;
   width: 80%;
   margin: 0 auto;
+}
+@media (min-width: 768px) and (max-width: 979px) {
+  #big-info p {
+    width: 100%;
+  }
+}
+@media (max-width: 767px) {
+  #big-info p {
+    padding-top: 10px;
+  }
 }
 #big-info a.cta {
   box-shadow: 1px 1px 7px #000;
@@ -9007,6 +9056,7 @@ ul.icons li [class*=" icon-"] {
 }
 #small-info {
   background-image: url('/img/banner.png');
+  background-size: 100%;
   color: #fff;
   margin-bottom: 30px;
 }
@@ -9021,11 +9071,38 @@ ul.icons li [class*=" icon-"] {
   margin-top: 30px;
   text-align: center;
 }
+@media (max-width: 767px) {
+  #small-info {
+    display: none;
+  }
+}
 #three-col {
   padding-top: 40px;
 }
+@media (max-width: 767px) {
+  #three-col {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+#three-col .interest {
+  float: left;
+}
 #three-col h3 {
   font-size: 18px;
+  line-height: 18px;
+}
+#three-col h3 i {
+  float: left;
+  font-size: 20px;
+}
+#three-col h3 span {
+  margin-left: 30px;
+  display: block;
+}
+#three-col p {
+  float: left;
+  clear: both;
 }
 #event .item {
   margin: 10px 0;
@@ -9036,11 +9113,20 @@ ul.icons li [class*=" icon-"] {
   font-size: 18px;
   font-weight: bold;
 }
+@media (max-width: 767px) {
+  #footer {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
 #map {
-  width: 770px;
+  width: 100%;
   height: 500px;
 }
+@media (max-width: 767px) {
+  
+}
 #select-point {
-  width: 500px;
+  width: 100%;
   height: 300px;
 }
