@@ -6,7 +6,7 @@ var express = require('express')
   , passport = require('passport')
   , MongoDBSession = require('connect-mongodb')
   , http = require('http')
-  ,flash = require('connect-flash')
+  , flash = require('connect-flash')
   , config = require('./config')
   , path = require('path');
 
