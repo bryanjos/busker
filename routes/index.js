@@ -174,7 +174,7 @@ validateNewEvent = function(req, callback){
         event.end = req.body.end;
         event.created = Date.now;
 
-        db.performers.findOne({_id: req.body.performer_id}, function(e, performer){
+        db.performers.findOne({_id: req.params.id}, function(e, performer){
             if(e){
                 callback(e, null);
             }else{
@@ -201,7 +201,7 @@ validateUpdateEvent = function(req, callback){
                 event.start = req.body.start;
                 event.end = req.body.end;
 
-                db.performers.findOne({_id: req.body.performer_id}, function(e, performer){
+                db.performers.findOne({_id: req.params.performer_id}, function(e, performer){
                     if(e){
                         callback(e, null);
                     }else{
@@ -318,21 +318,41 @@ exports.profile = function(req, res){
 };
 
 exports.edit_profile = function(req, res){
-    res.render('create-profile', { user:req.user, message: req.flash('error') });
+    db.performers.findOne({_id: ObjectId(req.params.id)}, function(err, performer){
+        if(err){
+            return res.redirect('/');
+        }
+
+        if(performer == null || performer.user.twitter_id != req.user.twitter_id){
+            return res.send(404);
+        }
+
+        res.render('create-profile', {user:req.user, message: req.flash('error'), performer: performer});
+    });
 };
 
 exports.edit_profile_post = function(req, res, next){
-    validateUpdateProfile(req, function(e, profile){
-        if(e){
+    db.performers.findOne({_id: ObjectId(req.params.id)}, function(err, performer){
+        if(err){
             return res.render('/create-profile', {user:req.user, message: e.message});
         }
 
-        db.performers.save(user, function (err) {
-            if (err){
-                res.render('/create-profile', { user:req.user });
-            }else{
-                res.redirect('/');
+        if(performer == null || performer.user.twitter_id != req.user.twitter_id){
+            return res.send(404);
+        }
+
+        validateUpdateProfile(req, function(e, profile){
+            if(e){
+                return res.render('/create-profile', {user:req.user, message: e.message});
             }
+
+            db.performers.save(profile, function (err) {
+                if (err){
+                    res.render('/create-profile', { user:req.user });
+                }else{
+                    res.redirect('/profiles/' + performer._id);
+                }
+            });
         });
     });
 };
