@@ -210,7 +210,7 @@ exports.index = function(req, res){
 };
 
 exports.auth_twitter = passport.authenticate('twitter',
-    {successRedirect: '/', failureRedirect: '/', failureFlash: true }
+    {successRedirect: '/create-profile', failureRedirect: '/', failureFlash: true }
 );
 
 exports.log_out = function(req, res){
