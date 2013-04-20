@@ -36,6 +36,7 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+app.get('/about', routes.about);
 app.get('/logout', routes.log_out);
 
 app.get('/auth/twitter', passport.authenticate('twitter'));

@@ -15,9 +15,9 @@ html.no-js
     meta(name='description', content='')
     meta(name='viewport', content='width=device-width')
     link(rel='stylesheet', href='/css/style.css')
-    link(rel='stylesheet', href='//cdn.leafletjs.com/leaflet-0.5/leaflet.css')
+    link(rel='stylesheet', href='/css/leaflet.css')
     //if lte IE 8
-      link(rel='stylesheet', href='//cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css')
+      link(rel='stylesheet', href='/css/leaflet.ie.css')
     link(href='http://fonts.googleapis.com/css?family=Noto+Serif:700,400italic,700italic', rel='stylesheet', type='text/css')
   body
     #header
@@ -30,6 +30,8 @@ html.no-js
             ul.navigation.pull-right
               li 
                 a(href='/') Home
+              li
+                a(href='/about') About
               li 
                 a(href='/events') Find Street Performers
               - if (user)
@@ -56,9 +58,9 @@ html.no-js
             p This project was created during the 2013 
               a(href='#') CODEMKRS
 
-    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+    script(src='/js/jquery.js')
     script
-      window.jQuery || document.write('<script src="javascripts/vendor/jquery-1.9.1.min.js"><\\/script>')
+      window.jQuery || document.write('<script src="/js/jquery.js"><\\/script>')
     script(src='/js/bootstrap/bootstrap-alert.js')
     script(src='/js/holder/holder.js')
     script(src='/js/scripts.js')
