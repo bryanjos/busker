@@ -218,7 +218,6 @@ exports.create_profile = function(req, res){
 exports.create_profile_post = function(req, res){
     validateUpdateProfile(req, function(e, user){
         if(e){
-            console.log(e);
             return res.render('create-profile', {user: utils.getUser(req), message: e.message});
         }
 
@@ -241,7 +240,6 @@ exports.profile = function(req, res){
         if(user == null){
             return res.send(404);
         }
-        console.log(user);
         res.render('profile', {user:utils.getUser(req), message: req.flash('error'), performer: user});
     });
 };
@@ -308,7 +306,7 @@ exports.events = function(req, res){
         if(err){
             return res.redirect('/');
         }
-        console.log(events[0]);
+
         res.render('events', {user: utils.getUser(req), message: req.flash('error'), events: events});
     });
 };
@@ -334,6 +332,10 @@ exports.event = function(req, res){
     db.events.findOne({slug: req.params.event_slug}, function(err, event){
         if(err){
             return res.redirect('/');
+        }
+
+        if(event == null){
+            return res.send(404);
         }
 
         T.get('search/tweets', { q: '#buskerue' + event.slug }, function(err, reply) {
