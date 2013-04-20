@@ -248,7 +248,14 @@ exports.profile = function(req, res){
         if(user == null){
             return res.send(404);
         }
-        res.render('profile', {user:utils.getUser(req), message: req.flash('error'), performer: user});
+
+        db.events.find({ "user.slug" : user.slug}, function(err, events){
+            if(err){
+                return res.redirect('/');
+            }
+
+            res.render('profile', {user:utils.getUser(req), message: req.flash('error'), performer: user, events: events});
+        });
     });
 };
 
