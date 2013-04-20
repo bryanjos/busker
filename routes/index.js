@@ -244,7 +244,7 @@ exports.ensureAuthenticated = function(req, res, next) {
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Express', message: null });
 };
 
 exports.auth_twitter = passport.authenticate('twitter',
@@ -353,7 +353,7 @@ exports.edit_profile_post = function(req, res, next){
 
             db.performers.save(profile, function (err) {
                 if (err){
-                    res.render('/create-profile', { user:req.user });
+                    res.render('/create-profile', { user:req.user, message: null });
                 }else{
                     res.redirect('/profiles/' + performer.slug);
                 }
@@ -363,7 +363,7 @@ exports.edit_profile_post = function(req, res, next){
 };
 
 exports.new_event = function(req, res){
-    res.render('new-event');
+    res.render('new-event', {message: null});
 };
 
 exports.new_event_post = function(req, res){
@@ -384,7 +384,7 @@ exports.new_event_post = function(req, res){
 
 
 exports.edit_event = function(req, res){
-    res.render('new-event');
+    res.render('new-event', {message: null});
 };
 
 exports.edit_event_post = function(req, res){
