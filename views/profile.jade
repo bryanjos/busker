@@ -1,14 +1,15 @@
 extends layout
 
 block content
+	include small-info
 	.container
 		.row
 			.span5
-				h2 Vehicula Cras Sit Magna
-				p Maecenas faucibus mollis interdum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec ullamcorper nulla non metus auctor fringilla. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nulla vitae elit libero, a pharetra augue. Nullam quis risus eget urna mollis ornare vel eu leo.
-				p Cras justo odio, dapibus ac facilisis in, egestas eget quam. Maecenas sed diam eget risus varius blandit sit amet non magna. Maecenas sed diam eget risus varius blandit sit amet non magna. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Cras justo odio, dapibus ac facilisis in, egestas eget quam.
+				h2 #{performer.artist_name}
+				.description #{performer.description}
 				p 
-					a.btn(href='http://digitaltipjar.com/profile/1232') Give a Tip
+					- if(performer.digital_tip_jar_url)
+						a.btn.btn-primary(target='_blank', href='#{performer.digital_tip_jar_url}') Give a Tip
 			.span3
 				h3 Events
 				.item
@@ -23,4 +24,5 @@ block content
 				.newevent
 					a.btn(href="/events/create") Add New Event
 			.span4
-				img(class="media-object", data-src="holder.js/370x300")
+				- if(performer.picture)
+					img(src="#{performer.picture}")
