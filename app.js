@@ -42,6 +42,8 @@ app.get('/logout', routes.log_out);
 app.get('/auth/twitter', passport.authenticate('twitter'));
 app.get('/auth/twitter/callback', routes.auth_twitter);
 
+app.get("/new", routes.ensureAuthenticated, routes.new_profile);
+
 app.get("/create-profile", routes.ensureAuthenticated, routes.create_profile);
 app.post("/create-profile", routes.ensureAuthenticated, routes.create_profile_post);
 

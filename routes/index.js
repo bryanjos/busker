@@ -203,12 +203,20 @@ exports.about = function(req, res){
 };
 
 exports.auth_twitter = passport.authenticate('twitter',
-    {successRedirect: '/create-profile', failureRedirect: '/', failureFlash: true }
+    {successRedirect: '/new', failureRedirect: '/', failureFlash: true }
 );
 
 exports.log_out = function(req, res){
     req.logout();
     res.redirect('/');
+};
+
+exports.new_profile = function(req, res){
+    if(req.user.artist_name != null){
+        return res.redirect('/profiles/' + req.user.slug);
+    }else{
+        return res.redirect('/create-profile');
+    }
 };
 
 exports.create_profile = function(req, res){
