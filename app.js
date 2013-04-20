@@ -44,11 +44,18 @@ app.get('/auth/twitter/callback', routes.auth_twitter);
 app.get("/create-profile", routes.create_profile);
 app.post("/create-profile", routes.create_profile_post);
 
-app.get("/profiles/:slug", routes.profile);
-app.get("/profiles/:slug/events", routes.performer_events);
-app.get("/profiles/:slug/events/create", routes.new_event);
-app.post("/profiles/:slug/events/create", routes.new_event_post);
-app.get("/profiles/:slug/events/:id", routes.event);
+app.get("/profiles/:id", routes.profile);
+
+app.get("/profiles/:id/edit", routes.edit_profile);
+app.post("/profiles/:id/edit", routes.edit_profile_post);
+
+app.get("/profiles/:id/events", routes.performer_events);
+app.get("/profiles/:id/events/create", routes.new_event);
+app.post("/profiles/:id/events/create", routes.new_event_post);
+
+app.get("/profiles/:id/events/:id", routes.event);
+app.get("/profiles/:id/events/:id/edit", routes.edit_event);
+app.post("/profiles/:id/events/:id/edit", routes.edit_event_post);
 
 app.get("/events", routes.events);
 

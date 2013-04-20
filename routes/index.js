@@ -31,8 +31,8 @@ user schema
  {
     _id,
     artist_name,
-    slug,
-    image,
+    description,
+    picture,
     digital_tip_jar_url,
     user,
     created
@@ -43,11 +43,11 @@ user schema
 /*
  event schema
  {
+    _id,
     coordinates: {lat, lon},
     location,
     start,
     end,
-    performer_slug,
     performer,
     created
  }
@@ -97,16 +97,26 @@ passport.deserializeUser(function(twitter_id, done) {
 
 validateNewProfile = function(req, callback){
     try{
-        check(req.body.artist_name, 'Artist Name Required').notEmpty();
+        check(req.body.name, 'Artist Name Required').notEmpty();
         var performer = {};
-        performer.artist_name = req.body.artist_name;
-        performer.slug = util.slugify(req.body.artist_name);
+        performer.artist_name = req.body.name;
         performer.description = req.body.description;
-        performer.image = req.body.image;
-        performer.digital_tip_jar_url = req.body.digital_tip_jar_url;
+        performer.digital_tip_jar_url = req.body.digital_tip_url;
         performer.user = req.user;
+        performer.created = Date.now;
 
-        callback(null, performer);
+        if(req.files.picture.name != ''){
+            utils.uploadPhoto(req.files.picture, function(err, data){
+                if(err){
+                    callback(err, null);
+                }
+
+                performer.picture = data;
+                callback(null, performer);
+            });
+        }else{
+            callback(null, performer);
+        }
 
     } catch (e) {
         callback(e, null);
@@ -125,29 +135,23 @@ validateUpdateProfile = function(req, callback){
             }else if(error){
                 callback(error, null);
             }else{
-                performer.artist_name = req.body.artist_name;
-                performer.slug = util.slugify(req.body.artist_name);
+                performer.artist_name = req.body.name;
                 performer.description = req.body.description;
-                performer.image = req.body.image;
-                performer.digital_tip_jar_url = req.body.digital_tip_jar_url;
+                performer.digital_tip_jar_url = req.body.digital_tip_url;
                 performer.user = req.user;
 
-                callback(null, performer);
-            }
+                if(req.files.picture.name != ''){
+                    utils.uploadPhoto(req.files.picture, function(err, data){
+                        if(err){
+                            callback(err, null);
+                        }
 
-
-            if(user && user.username != req.user.username){
-                e = {};
-                e.message = 'Email taken';
-                callback(e, null);
-            }else{
-                req.user.email = req.body.email;
-
-                if(req.body.password.length > 0){
-                    req.user.password = bcrypt.hashSync(req.body.password, config.BCRYPT_WORK_FACTOR)
+                        performer.picture = data;
+                        callback(null, performer);
+                    });
+                }else{
+                    callback(null, performer);
                 }
-
-                callback(null, req.user);
             }
         });
 
@@ -163,14 +167,20 @@ validateNewEvent = function(req, callback){
         check(req.body.end, 'End Required').notEmpty();
 
         var event = {};
-        event.id = '';
-        event.coordinates = { lat: req.body.lat, lon: req.body.lon };
+        event.coordinates = req.body.coordinates;
         event.location = req.body.location;
         event.start = req.body.start;
         event.end = req.body.end;
-        event.performer = req.user;
+        event.created = Date.now;
 
-        callback(null, event);
+        db.performers.findOne({_id: req.body.performer_id}, function(e, performer){
+            if(e){
+                callback(e, null);
+            }else{
+                event.performer = performer;
+                callback(null, event);
+            }
+        });
 
     } catch (e) {
         callback(e, null);
@@ -183,15 +193,22 @@ validateUpdateEvent = function(req, callback){
         check(req.body.start, 'Start Required').notEmpty();
         check(req.body.end, 'End Required').notEmpty();
 
-        db.events.findOne({id: req.body.id}, function(error, event){
+        db.events.findOne({_id: req.body._id}, function(error, event){
             if(event){
-                event.coordinates = { lat: req.body.lat, lon: req.body.lon };
+                event.coordinates = req.body.coordinates;
                 event.location = req.body.location;
                 event.start = req.body.start;
                 event.end = req.body.end;
-                event.performer = req.user;
 
-                callback(null, event);
+                db.performers.findOne({_id: req.body.performer_id}, function(e, performer){
+                    if(e){
+                        callback(e, null);
+                    }else{
+                        event.performer = performer;
+                        callback(null, event);
+                    }
+                });
+
             }else{
                 e = {
                     message: 'No Event with that id exists'
@@ -233,43 +250,6 @@ exports.log_out = function(req, res){
     res.redirect('/');
 };
 
-exports.update = function(req, res, next){
-    res.render('user_update', { user:req.user, message: req.flash('error') });
-};
-
-exports.update_post = function(req, res, next){
-    validateUpdate(req, function(e, user){
-        if(e){
-            return res.render('user_update', {user:req.user, message: e.message});
-        }
-
-        db.users.save(user, function (err) {
-            if (err){
-                res.render('user_update', { user:req.user });
-            }else{
-                res.redirect('/');
-            }
-        });
-    });
-};
-
-exports.user_profile = function(req, res){
-    var page = 1;
-
-    if(req.params.page){
-        page = req.params.page;
-    }
-
-
-    db.users.findOne({ username: req.params.username }, function(error, user){
-        if(error || user == null){
-            return res.send(404, 'Not Found');
-        }
-
-        res.render('user_profile', {user: req.user, message: req.flash('error'), profile_user: user});
-    });
-};
-
 exports.performer_events = function(req, res){
     res.render('events');
 };
@@ -307,11 +287,52 @@ exports.profile = function(req, res){
     res.render('profile');
 };
 
+exports.edit_profile = function(req, res){
+    res.render('create-profile', { user:req.user, message: req.flash('error') });
+};
+
+exports.edit_profile_post = function(req, res, next){
+    validateNewProfile(req, function(e, profile){
+        if(e){
+            return res.render('/create-profile', {user:req.user, message: e.message});
+        }
+
+        db.performers.save(user, function (err) {
+            if (err){
+                res.render('/create-profile', { user:req.user });
+            }else{
+                res.redirect('/');
+            }
+        });
+    });
+};
+
 exports.new_event = function(req, res){
     res.render('new-event');
 };
 
 exports.new_event_post = function(req, res){
+    validateNewEvent(req, function(e, event){
+        if(e){
+            return res.render('new-event', {user:req.user, message: e.message});
+        }
+
+        db.events.save(event, function (err) {
+            if (err){
+                res.render('new-event', { user:req.user, message: req.flash('error') });
+            }else{
+                res.redirect('/');
+            }
+        });
+    });
+};
+
+
+exports.edit_event = function(req, res){
+    res.render('new-event');
+};
+
+exports.edit_event_post = function(req, res){
     validateNewEvent(req, function(e, event){
         if(e){
             return res.render('new-event', {user:req.user, message: e.message});
