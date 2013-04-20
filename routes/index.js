@@ -56,7 +56,10 @@ passport.use(new TwitterStrategy({
 
             console.log(profile);
             if(!user){
-                user = { created: Date.now, slug: utils.generateRandomToken(slug_length) };
+                user = {
+                    created: Date.now,
+                    slug: utils.generateRandomToken(slug_length)
+                };
             }
 
             user.twitter_id = profile.id;
@@ -65,10 +68,10 @@ passport.use(new TwitterStrategy({
             user.token = token;
             user.token_secret = tokenSecret;
 
-            db.users.save(user, function (err, user) {
+            db.users.save(user, function (err, savedUser) {
                 if (err) { return done(err); }
 
-                done(null, user);
+                done(null, savedUser);
             });
         });
     }
@@ -76,11 +79,13 @@ passport.use(new TwitterStrategy({
 
 
 passport.serializeUser(function(user, done) {
+    console.log(user);
+    console.log(done);
     return done(null, user.twitter_id);
 });
 
 passport.deserializeUser(function(twitter_id, done) {
-    db.users.findOne( {twitter_id: twitter_id } , function (err, user) {
+    db.users.findOne({twitter_id: twitter_id } , function (err, user) {
         done(err, user);
     });
 });
