@@ -7,11 +7,19 @@ var mongojs = require('mongojs')
     , underscore = require('underscore')
     , crypto = require('crypto')
     , utils = require('../utils')
-    , config = require('../config');
+    , config = require('../config')
+    , Twit = require('twit');
 
 
 var db = mongojs(config.DB_NAME, ['users', 'events' ]);
 var slug_length = 4;
+
+var T = new Twit({
+    consumer_key:         config.TWITTER_CONSUMER_KEY
+    , consumer_secret:      config.TWITTER_CONSUMER_SECRET
+    , access_token:         config.TWITTER_ACCESS_TOKEN
+    , access_token_secret:  config.TWITTER_TOKEN_SECRET
+});
 
 /*
 user schema
@@ -192,7 +200,7 @@ exports.index = function(req, res){
 
 exports.about = function(req, res){
     res.render('about', {message: null, user: utils.getUser(req) });
-}
+};
 
 exports.auth_twitter = passport.authenticate('twitter',
     {successRedirect: '/create-profile', failureRedirect: '/', failureFlash: true }
@@ -328,7 +336,9 @@ exports.event = function(req, res){
             return res.redirect('/');
         }
 
-        res.render('event', {user: utils.getUser(req), message: req.flash('error'), event: event});
+        T.get('search/tweets', { q: '#buskerue' + event.slug }, function(err, reply) {
+            res.render('event', {user: utils.getUser(req), message: req.flash('error'), event: event, tweets: reply.statuses});
+        });
     });
 };
 
@@ -386,3 +396,5 @@ exports.edit_event_post = function(req, res){
         });
     });
 };
+
+

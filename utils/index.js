@@ -47,5 +47,5 @@ exports.getUser = function(req){
   }else{
     return null;
   }
-}
+};
 

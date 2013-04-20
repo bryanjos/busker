@@ -4,3 +4,4 @@ public/uploads
 public/pictures
 .idea
 *.log
+config.js
