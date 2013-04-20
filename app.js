@@ -53,9 +53,9 @@ app.get("/profiles/:id/events", routes.performer_events);
 app.get("/profiles/:id/events/create", routes.new_event);
 app.post("/profiles/:id/events/create", routes.new_event_post);
 
-app.get("/profiles/:id/events/:id", routes.event);
-app.get("/profiles/:id/events/:id/edit", routes.edit_event);
-app.post("/profiles/:id/events/:id/edit", routes.edit_event_post);
+app.get("/profiles/:performer_id/events/:event_id", routes.event);
+app.get("/profiles/:performer_id/events/:event_id/edit", routes.edit_event);
+app.post("/profiles/:performer_id/events/:event_id/edit", routes.edit_event_post);
 
 app.get("/events", routes.events);
 
