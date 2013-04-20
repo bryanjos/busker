@@ -9027,6 +9027,11 @@ ul.icons li [class*=" icon-"] {
 #three-col h3 {
   font-size: 18px;
 }
+#event .item {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: #e9e9e9;
+}
 #footer {
   font-size: 18px;
   font-weight: bold;
