@@ -10,6 +10,7 @@ var express = require('express')
   , config = require('./config')
   , path = require('path');
 
+
 var app = express();
 
 app.configure(function(){
@@ -46,7 +47,9 @@ app.post('/signup', routes.signup_post);
 
 app.get('/update',routes.ensureAuthenticated, routes.update);
 app.post('/update',routes.ensureAuthenticated, routes.update_post);
-app.get('/:username', routes.user_profile);
+app.get('/user/:username', routes.user_profile);
+
+app.get("/events", routes.events);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

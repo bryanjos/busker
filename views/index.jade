@@ -1,12 +1,6 @@
 extends layout
 
 block content
-	header.row
-		.page-header.span12
-			h1.pull-left Example page header 
-				small Subtext for header
-			.btn-group.pull-right
-				a.btn(href='#') Logout
 	section.row
 		#big-image.span6
 			img(class="media-object", data-src="holder.js/570x370")
@@ -17,7 +11,7 @@ block content
 				| porta ac consectetur ac, vestibulum at eros. Etiam porta sem malesuada magna mollis euismod. Nullam 
 				| quis risus eget urna mollis ornare vel eu leo. Aenean eu leo quam. Pellentesque ornare sem lacinia 
 				| quam venenatis vestibulum.
-			a.btn.btn-large(href="#") 
+			a.btn.btn-large(href="/events") 
 				i.icon-twitter  Login with Twitter
 	section.row
 		hr.span12
@@ -39,7 +33,3 @@ block content
 				| Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor 
 				| mauris condimentum nibh, ut fermentum massa justo sit amet risus. Aenean eu leo quam. Pellentesque 
 				| ornare sem lacinia quam venenatis vestibulum.
-	footer.row
-		hr.span12
-		p.span12 This project was created during the 2013 
-			a(href='#') CODEMKRS

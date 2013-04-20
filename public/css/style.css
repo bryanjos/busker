@@ -8929,10 +8929,7 @@ ul.icons li [class*=" icon-"] {
 .icon-folder-open-alt:before {
   content: "\f115";
 }
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-a {
-  color: #00B7FF;
+#map {
+  width: 770px;
+  height: 500px;
 }

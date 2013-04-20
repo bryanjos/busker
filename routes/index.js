@@ -193,3 +193,7 @@ exports.user_profile = function(req, res){
         res.render('user_profile', {user: req.user, message: req.flash('error'), profile_user: user});
     });
 };
+
+exports.events = function(req, res){
+    res.render('events');
+}

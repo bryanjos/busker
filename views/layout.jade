@@ -15,10 +15,25 @@ html.no-js
     meta(name='description', content='')
     meta(name='viewport', content='width=device-width')
     link(rel='stylesheet', href='css/style.css')
+    link(rel='stylesheet', href='//cdn.leafletjs.com/leaflet-0.5/leaflet.css')
+    //if lte IE 8
+      link(rel='stylesheet', href='//cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css')
   body
     #page.container
+      header.row
+        .page-header.span12
+          h1.pull-left Example page header 
+            small Subtext for header
+          .btn-group.pull-right
+            a.btn(href='/') Logout
       block content
+      footer.row
+        hr.span12
+        p.span12 This project was created during the 2013 
+          a(href='#') CODEMKRS
+
       script(src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
       script(src='js/holder/holder.js')
+
       script
         window.jQuery || document.write('<script src="javascripts/vendor/jquery-1.9.1.min.js"><\\/script>')
