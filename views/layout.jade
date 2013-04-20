@@ -34,6 +34,13 @@ html.no-js
                 a(href='/events') Find Street Performers
               li 
                 a(href='/logout') Logout
+
+    .container
+      .row
+        .span12
+          - if (message && message != '')
+            .alert= message
+
     block content
     #footer
       .container
@@ -46,5 +53,6 @@ html.no-js
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
     script
       window.jQuery || document.write('<script src="javascripts/vendor/jquery-1.9.1.min.js"><\\/script>')
+    script(src='/js/bootstrap/bootstrap-alert.js')
     script(src='/js/holder/holder.js')
-    script(src='/js/scripts.js');
+    script(src='/js/scripts.js')
