@@ -264,7 +264,7 @@ exports.performer_events = function(req, res){
             return res.redirect('/');
         }
 
-        res.render('events', {user:req.user, message: req.flash('error'), events: events});
+        res.render('events', {user: utils.getUser(req), message: req.flash('error'), events: events});
     });
 };
 
@@ -274,7 +274,7 @@ exports.events = function(req, res){
             return res.redirect('/');
         }
 
-        res.render('events', {user:req.user, message: req.flash('error'), events: events});
+        res.render('events', {user: utils.getUser(req), message: req.flash('error'), events: events});
     });
 };
 
@@ -285,24 +285,24 @@ exports.event = function(req, res){
             return res.redirect('/');
         }
 
-        res.render('event', {user:req.user, message: req.flash('error'), event: event});
+        res.render('event', {user: utils.getUser(req), message: req.flash('error'), event: event});
     });
 };
 
 exports.create_profile = function(req, res){
-    res.render('create-profile', { user:req.user, message: req.flash('error') });
+    res.render('create-profile', { user: utils.getUser(req), message: req.flash('error') });
 };
 
 exports.create_profile_post = function(req, res){
     validateNewProfile(req, function(e, performer){
         if(e){
             console.log(e);
-            return res.render('create-profile', {user:req.user, message: e.message});
+            return res.render('create-profile', {user: utils.getUser(req), message: e.message});
         }
 
         db.performers.save(performer, function (err) {
             if (err){
-                res.render('create-profile', { user:req.user, message: req.flash('error') });
+                res.render('create-profile', { user: utils.getUser(req), message: req.flash('error') });
             }else{
                 res.redirect('/profiles/' + performer.slug);
             }
@@ -320,7 +320,7 @@ exports.profile = function(req, res){
             return res.send(404);
         }
 
-        res.render('profile', {user:req.user, message: req.flash('error'), performer: performer});
+        res.render('profile', {user: utils.getUser(req), message: req.flash('error'), performer: performer});
     });
 };
 
@@ -334,14 +334,14 @@ exports.edit_profile = function(req, res){
             return res.send(404);
         }
 
-        res.render('create-profile', {user:req.user, message: req.flash('error'), performer: performer});
+        res.render('create-profile', {user: utils.getUser(req), message: req.flash('error'), performer: performer});
     });
 };
 
 exports.edit_profile_post = function(req, res, next){
     db.performers.findOne({slug: req.params.slug}, function(err, performer){
         if(err){
-            return res.render('/create-profile', {user:req.user, message: e.message});
+            return res.render('/create-profile', {user: utils.getUser(req), message: e.message});
         }
 
         if(performer == null || performer.user.twitter_id != req.user.twitter_id){
@@ -350,12 +350,12 @@ exports.edit_profile_post = function(req, res, next){
 
         validateUpdateProfile(req, function(e, profile){
             if(e){
-                return res.render('/create-profile', {user:req.user, message: e.message});
+                return res.render('/create-profile', {user: utils.getUser(req), message: e.message});
             }
 
             db.performers.save(profile, function (err) {
                 if (err){
-                    res.render('/create-profile', { user:req.user, message: null });
+                    res.render('/create-profile', { user: utils.getUser(req), message: null });
                 }else{
                     res.redirect('/profiles/' + performer.slug);
                 }
@@ -371,12 +371,12 @@ exports.new_event = function(req, res){
 exports.new_event_post = function(req, res){
     validateNewEvent(req, function(e, event){
         if(e){
-            return res.render('new-event', {user:req.user, message: e.message});
+            return res.render('new-event', {user: utils.getUser(req), message: e.message});
         }
 
         db.events.save(event, function (err) {
             if (err){
-                res.render('new-event', { user:req.user, message: req.flash('error') });
+                res.render('new-event', { user: utils.getUser(req), message: req.flash('error') });
             }else{
                 res.redirect('/');
             }
@@ -392,12 +392,12 @@ exports.edit_event = function(req, res){
 exports.edit_event_post = function(req, res){
     validateNewEvent(req, function(e, event){
         if(e){
-            return res.render('new-event', {user:req.user, message: e.message});
+            return res.render('new-event', {user: utils.getUser(req), message: e.message});
         }
 
         db.events.save(event, function (err) {
             if (err){
-                res.render('new-event', { user:req.user, message: req.flash('error') });
+                res.render('new-event', { user: utils.getUser(req), message: req.flash('error') });
             }else{
                 res.redirect('/');
             }

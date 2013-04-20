@@ -32,8 +32,14 @@ html.no-js
                 a(href='/') Home
               li 
                 a(href='/events') Find Street Performers
-              li 
-                a(href='/logout') Logout
+              - if (user)
+                li 
+                  a(href='/profiles/#{user.slug}') My Account
+                li 
+                  a(href='/logout') Logout
+              - else
+                li
+                  a(href='/auth/twitter') Login
 
     .container
       .row

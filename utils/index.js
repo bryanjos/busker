@@ -42,9 +42,10 @@ exports.uploadPhoto = function(file, callback){
 };
 
 exports.getUser = function(req){
-  if(req.user)
+  if(req.user){
     return req.user;
-  else
+  }else{
     return null;
+  }
 }
 
