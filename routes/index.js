@@ -230,7 +230,7 @@ validateUpdateEvent = function(req, callback){
 
 exports.ensureAuthenticated = function(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
-    res.redirect('/login')
+    res.redirect('/')
 };
 
 
@@ -307,6 +307,10 @@ exports.profile = function(req, res){
     db.performers.findOne({_id: ObjectId(req.params.id)}, function(err, performer){
         if(err){
             return res.redirect('/');
+        }
+
+        if(performer == null){
+            return res.send(404);
         }
 
         res.render('profile', {user:req.user, message: req.flash('error'), performer: performer});
