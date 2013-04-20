@@ -9005,6 +9005,22 @@ ul.icons li [class*=" icon-"] {
   text-transform: uppercase;
   font-weight: bold;
 }
+#small-info {
+  background-image: url('/img/banner.png');
+  color: #fff;
+  margin-bottom: 30px;
+}
+#small-info h2 {
+  font-family: 'Noto Serif', serif;
+  text-shadow: 1px 1px 7px #000;
+  font-weight: normal;
+  font-style: italic;
+  font-size: 24px;
+  line-height: 24px;
+  height: 50px;
+  margin-top: 30px;
+  text-align: center;
+}
 #three-col {
   padding-top: 40px;
 }

@@ -1,20 +1,22 @@
 extends layout
 
 block content
-	section.row
-		.span12
-			h2 Create Street Performer
-			form(action='profile')
-				.artist
-					input(name='name', type='text', placeholder='Artist or Group Name')
-				.description
-					label Description
-					textarea(name='description')
-				.picture
-					label Picture
-					input(name='picture', type='file')
-				.digital-tip
-					label Digital Tip Jar Profile URL
-					input(name='digital-tip-url', type='text')
-				.submit
-					input(name='submit', type='submit', class='btn')
+	include small-info
+	.container
+		.row
+			.span12
+				h2 Create Street Performer
+				form(action='profile')
+					.artist
+						input(name='name', type='text', placeholder='Artist or Group Name')
+					.description
+						label Description
+						textarea(name='description')
+					.picture
+						label Picture
+						input(name='picture', type='file')
+					.digital-tip
+						label Digital Tip Jar Profile URL
+						input(name='digital-tip-url', type='text')
+					.submit
+						input(name='submit', type='submit', class='btn')
