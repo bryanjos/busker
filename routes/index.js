@@ -12,12 +12,13 @@ var mongojs = require('mongojs')
 
 
 var db = mongojs(config.DB_NAME, ['users', 'performers', 'events' ]);
-
+var slug_length = 4;
 
 /*
 user schema
 {
     _id,
+    slug,
     twitter_id,
     displayName,
     username,
@@ -31,6 +32,7 @@ user schema
  performer schema
  {
     _id,
+    slug,
     artist_name,
     description,
     picture,
@@ -45,6 +47,7 @@ user schema
  event schema
  {
     _id,
+    slug,
     coordinates: {lat, lon},
     location,
     start,
@@ -66,7 +69,7 @@ passport.use(new TwitterStrategy({
 
             console.log(profile);
             if(!user){
-                user = { created: Date.now };
+                user = { created: Date.now, slug: utils.generateRandomToken(slug_length) };
             }
 
             user.twitter_id = profile.id;
@@ -105,6 +108,7 @@ validateNewProfile = function(req, callback){
         performer.digital_tip_jar_url = req.body.digital_tip_url;
         performer.user = req.user;
         performer.created = Date.now;
+        performer.slug = utils.generateRandomToken(slug_length);
 
         if(req.files.picture.name != ''){
             utils.uploadPhoto(req.files.picture, function(err, data){
@@ -128,7 +132,7 @@ validateUpdateProfile = function(req, callback){
     try{
         check(req.body.artist_name, 'Artist Name Required').notEmpty();
 
-        db.performers.findOne({_id: ObjectId(req.body._id)}, function(error, performer){
+        db.performers.findOne({slug: req.body.slug}, function(error, performer){
             if(performer == null){
                 e = {};
                 e.message = 'No performer found';
@@ -173,8 +177,9 @@ validateNewEvent = function(req, callback){
         event.start = req.body.start;
         event.end = req.body.end;
         event.created = Date.now;
+        event.slug = utils.generateRandomToken(slug_length);
 
-        db.performers.findOne({_id: req.params.id}, function(e, performer){
+        db.performers.findOne({slug: req.params.id}, function(e, performer){
             if(e){
                 callback(e, null);
             }else{
@@ -194,14 +199,14 @@ validateUpdateEvent = function(req, callback){
         check(req.body.start, 'Start Required').notEmpty();
         check(req.body.end, 'End Required').notEmpty();
 
-        db.events.findOne({_id: ObjectId(req.body._id)}, function(error, event){
+        db.events.findOne({slug: req.params.slug}, function(error, event){
             if(event){
                 event.coordinates = req.body.coordinates;
                 event.location = req.body.location;
                 event.start = req.body.start;
                 event.end = req.body.end;
 
-                db.performers.findOne({_id: req.params.performer_id}, function(e, performer){
+                db.performers.findOne({slug: req.params.performer_slug}, function(e, performer){
                     if(e){
                         callback(e, null);
                     }else{
@@ -254,7 +259,7 @@ exports.log_out = function(req, res){
 };
 
 exports.performer_events = function(req, res){
-    db.events.find({ "performer._id" : ObjectId(req.params._id)}, function(err, events){
+    db.events.find({ "performer.slug" : req.params.slug}, function(err, events){
         if(err){
             return res.redirect('/');
         }
@@ -275,7 +280,7 @@ exports.events = function(req, res){
 
 
 exports.event = function(req, res){
-    db.events.findOne({_id: ObjectId(req.params.event_id)}, function(err, event){
+    db.events.findOne({slug: req.params.event_slug}, function(err, event){
         if(err){
             return res.redirect('/');
         }
@@ -299,14 +304,14 @@ exports.create_profile_post = function(req, res){
             if (err){
                 res.render('create-profile', { user:req.user, message: req.flash('error') });
             }else{
-                res.redirect('/profiles/' + performer._id);
+                res.redirect('/profiles/' + performer.slug);
             }
         });
     });
 };
 
 exports.profile = function(req, res){
-    db.performers.findOne({_id: ObjectId(req.params.id)}, function(err, performer){
+    db.performers.findOne({slug: req.params.slug}, function(err, performer){
         if(err){
             return res.redirect('/');
         }
@@ -320,7 +325,7 @@ exports.profile = function(req, res){
 };
 
 exports.edit_profile = function(req, res){
-    db.performers.findOne({_id: ObjectId(req.params.id)}, function(err, performer){
+    db.performers.findOne({slug: req.params.slug}, function(err, performer){
         if(err){
             return res.redirect('/');
         }
@@ -334,7 +339,7 @@ exports.edit_profile = function(req, res){
 };
 
 exports.edit_profile_post = function(req, res, next){
-    db.performers.findOne({_id: ObjectId(req.params.id)}, function(err, performer){
+    db.performers.findOne({slug: req.params.slug}, function(err, performer){
         if(err){
             return res.render('/create-profile', {user:req.user, message: e.message});
         }
@@ -352,7 +357,7 @@ exports.edit_profile_post = function(req, res, next){
                 if (err){
                     res.render('/create-profile', { user:req.user, message: null });
                 }else{
-                    res.redirect('/profiles/' + performer._id);
+                    res.redirect('/profiles/' + performer.slug);
                 }
             });
         });

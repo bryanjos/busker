@@ -18,10 +18,10 @@ exports.getExtension = function(filename) {
     return ext[ext.length - 1];
 };
 
-exports.generateRandomToken = function(user){
+exports.generateRandomToken = function(len){
     var chars = "_!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-        token = new Date().getTime() + '_';
-    for ( var x = 0; x < 16; x++ ) {
+        token = '';
+    for ( var x = 0; x < len; x++ ) {
         var i = Math.floor( Math.random() * 62 );
         token += chars.charAt( i );
     }
