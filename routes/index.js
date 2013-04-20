@@ -249,6 +249,10 @@ exports.index = function(req, res){
 
 };
 
+exports.about = function(req, res){
+    res.render('about', {message: null, user: utils.getUser(req) });
+}
+
 exports.auth_twitter = passport.authenticate('twitter',
     {successRedirect: '/create-profile', failureRedirect: '/', failureFlash: true }
 );
