@@ -1,9 +1,0 @@
-exports.DB_NAME = 'mongodb://localhost/busker';
-exports.PORT = 9000;
-exports.MAX_COOKIE_AGE = 2592000000;
-exports.FILE_SERVER = '';
-exports.TWITTER_CONSUMER_KEY = '';
-exports.TWITTER_CONSUMER_SECRET = '';
-exports.TWITTER_ACCESS_TOKEN = '';
-exports.TWITTER_TOKEN_SECRET = '';
-exports.TWITTER_CALLBACK = '';

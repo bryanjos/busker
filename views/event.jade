@@ -4,8 +4,9 @@ block content
 	include small-info
 	.container
 		.row
-			.span4
-				img(class="media-object", data-src="holder.js/370x300")
+			- if(event.picture)
+				.span4
+					img(src="#{event.user.picture}")
 			.span5
 				h2.street-performer #{event.user.artist_name}
 				p #{event.user.description}
