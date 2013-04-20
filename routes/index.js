@@ -18,10 +18,9 @@ user schema
 {
     twitter_id,
     displayName,
+    username,
     token,
     token_secret,
-    email,
-    type,
     created
 }
 */
@@ -30,7 +29,6 @@ user schema
 /*
  event schema
  {
-    id,
     coordinates: {lat, lon},
     location,
     start,
@@ -49,17 +47,16 @@ passport.use(new TwitterStrategy({
         db.users.findOne({twitter_id: profile.id}, function(err, user){
             if (err) { return done(err); }
 
+            console.log(profile);
             if(!user){
                 user = { created: Date.now };
             }
 
             user.twitter_id = profile.id;
             user.displayName = profile.displayName;
+            user.username = profile.username;
             user.token = token;
             user.token_secret = tokenSecret;
-
-            if(profile.emails && profile.emails.length > 0)
-                user.email = profile.emails[0].value;
 
             db.users.save(user, function (err) {
                 if (err) { return done(err); }
@@ -213,10 +210,7 @@ exports.index = function(req, res){
 };
 
 exports.auth_twitter = passport.authenticate('twitter',
-    { failureRedirect: '/', failureFlash: true },
-    function(req, res){
-        res.redirect('/create-profile');
-    }
+    {successRedirect: '/create-profile', failureRedirect: '/', failureFlash: true }
 );
 
 exports.log_out = function(req, res){
