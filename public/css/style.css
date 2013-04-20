@@ -3481,17 +3481,17 @@ input[type="button"].btn-block {
 .btn-warning {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #faa732;
-  background-image: -moz-linear-gradient(top, #fbb450, #f89406);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fbb450), to(#f89406));
-  background-image: -webkit-linear-gradient(top, #fbb450, #f89406);
-  background-image: -o-linear-gradient(top, #fbb450, #f89406);
-  background-image: linear-gradient(to bottom, #fbb450, #f89406);
+  background-color: #ffca57;
+  background-image: -moz-linear-gradient(top, #ffd376, #ffbb29);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffd376), to(#ffbb29));
+  background-image: -webkit-linear-gradient(top, #ffd376, #ffbb29);
+  background-image: -o-linear-gradient(top, #ffd376, #ffbb29);
+  background-image: linear-gradient(to bottom, #ffd376, #ffbb29);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffbb450', endColorstr='#fff89406', GradientType=0);
-  border-color: #f89406 #f89406 #ad6704;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffd376', endColorstr='#ffffbb29', GradientType=0);
+  border-color: #ffbb29 #ffbb29 #dc9600;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  *background-color: #f89406;
+  *background-color: #ffbb29;
   /* Darken IE7 buttons by default so they stand out more given they won't have borders */
 
   filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
@@ -3503,12 +3503,12 @@ input[type="button"].btn-block {
 .btn-warning.disabled,
 .btn-warning[disabled] {
   color: #ffffff;
-  background-color: #f89406;
-  *background-color: #df8505;
+  background-color: #ffbb29;
+  *background-color: #ffb310;
 }
 .btn-warning:active,
 .btn-warning.active {
-  background-color: #c67605 \9;
+  background-color: #f5a700 \9;
 }
 .btn-warning:hover,
 .btn-warning:focus,
@@ -3517,12 +3517,12 @@ input[type="button"].btn-block {
 .btn-warning.disabled,
 .btn-warning[disabled] {
   color: #ffffff;
-  background-color: #f89406;
-  *background-color: #df8505;
+  background-color: #ffbb29;
+  *background-color: #ffb310;
 }
 .btn-warning:active,
 .btn-warning.active {
-  background-color: #c67605 \9;
+  background-color: #f5a700 \9;
 }
 .btn-danger {
   color: #ffffff;
@@ -3899,7 +3899,7 @@ input[type="submit"].btn.btn-mini {
   background-color: #0044cc;
 }
 .btn-group.open .btn-warning.dropdown-toggle {
-  background-color: #f89406;
+  background-color: #ffbb29;
 }
 .btn-group.open .btn-danger.dropdown-toggle {
   background-color: #bd362f;
@@ -5635,11 +5635,11 @@ a.badge:focus {
 }
 .label-warning,
 .badge-warning {
-  background-color: #f89406;
+  background-color: #ffbb29;
 }
 .label-warning[href],
 .badge-warning[href] {
-  background-color: #c67605;
+  background-color: #f5a700;
 }
 .label-success,
 .badge-success {
@@ -5846,18 +5846,18 @@ a.badge:focus {
 }
 .progress-warning .bar,
 .progress .bar-warning {
-  background-color: #faa732;
-  background-image: -moz-linear-gradient(top, #fbb450, #f89406);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#fbb450), to(#f89406));
-  background-image: -webkit-linear-gradient(top, #fbb450, #f89406);
-  background-image: -o-linear-gradient(top, #fbb450, #f89406);
-  background-image: linear-gradient(to bottom, #fbb450, #f89406);
+  background-color: #ffca57;
+  background-image: -moz-linear-gradient(top, #ffd376, #ffbb29);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffd376), to(#ffbb29));
+  background-image: -webkit-linear-gradient(top, #ffd376, #ffbb29);
+  background-image: -o-linear-gradient(top, #ffd376, #ffbb29);
+  background-image: linear-gradient(to bottom, #ffd376, #ffbb29);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fffbb450', endColorstr='#fff89406', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffd376', endColorstr='#ffffbb29', GradientType=0);
 }
 .progress-warning.progress-striped .bar,
 .progress-striped .bar-warning {
-  background-color: #fbb450;
+  background-color: #ffd376;
   background-image: -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.25, rgba(255, 255, 255, 0.15)), color-stop(0.25, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(255, 255, 255, 0.15)), color-stop(0.75, rgba(255, 255, 255, 0.15)), color-stop(0.75, transparent), to(transparent));
   background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
   background-image: -moz-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
@@ -8928,6 +8928,92 @@ ul.icons li [class*=" icon-"] {
 }
 .icon-folder-open-alt:before {
   content: "\f115";
+}
+.heading-font {
+  font-family: 'Noto Serif', serif;
+}
+#header {
+  background-image: url('/img/bkgd.png');
+  background-repeat: repeat-x;
+  height: 46px;
+  padding-top: 20px;
+}
+#header h1 {
+  font-family: 'Noto Serif', serif;
+  font-size: 17px;
+  text-transform: uppercase;
+  font-style: italic;
+  margin-top: 7px;
+  line-height: 17px;
+}
+#header h1 a {
+  color: #fff;
+}
+#header h1 a:hover {
+  text-decoration: none;
+}
+#header h1 a span {
+  color: #ffbb29;
+}
+#header .navigation {
+  list-style: none;
+  margin-top: 5px;
+}
+#header .navigation li {
+  float: left;
+  margin-left: 20px;
+}
+#header .navigation li a {
+  display: block;
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+}
+#big-info {
+  background-image: url('/img/banner.png');
+  background-size: 100%;
+  min-height: 391px;
+  color: #fff;
+  text-align: center;
+}
+#big-info h2 {
+  font-family: 'Noto Serif', serif;
+  text-shadow: 1px 1px 7px #000;
+  font-size: 36px;
+  text-align: center;
+  margin-top: 80px;
+}
+#big-info p {
+  font-family: 'Noto Serif', serif;
+  text-shadow: 1px 1px 7px #000;
+  font-weight: normal;
+  font-style: italic;
+  font-size: 24px;
+  line-height: 32px;
+  padding-top: 30px;
+  width: 80%;
+  margin: 0 auto;
+}
+#big-info a.cta {
+  box-shadow: 1px 1px 7px #000;
+  margin-top: 40px;
+  background-color: #ffbb29;
+  color: #322508;
+  padding: 20px 30px;
+  display: inline-block;
+  border-radius: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+#three-col {
+  padding-top: 40px;
+}
+#three-col h3 {
+  font-size: 18px;
+}
+#footer {
+  font-size: 18px;
+  font-weight: bold;
 }
 #map {
   width: 770px;

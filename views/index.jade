@@ -1,35 +1,33 @@
 extends layout
 
 block content
-	section.row
-		#big-image.span6
-			img(class="media-object", data-src="holder.js/570x370")
-		#big-info.span6
-			h2 Donec ullamcorper nulla non metus auctor fringilla.
-			p 
-				| Nulla vitae elit libero, a pharetra augue. Curabitur blandit tempus porttitor. Morbi leo risus, 
-				| porta ac consectetur ac, vestibulum at eros. Etiam porta sem malesuada magna mollis euismod. Nullam 
-				| quis risus eget urna mollis ornare vel eu leo. Aenean eu leo quam. Pellentesque ornare sem lacinia 
-				| quam venenatis vestibulum.
-			a.btn.btn-large(href="/auth/twitter")
-				i.icon-twitter  Login with Twitter
-	section.row
-		hr.span12
-		.interest.span4
-			h3 Porta Nullam Risus Commodo
-			p 
-				| Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor 
-				| mauris condimentum nibh, ut fermentum massa justo sit amet risus. Aenean eu leo quam. Pellentesque 
-				| ornare sem lacinia quam venenatis vestibulum.
-		.interest.span4
-			h3 Porta Nullam Risus Commodo
-			p 
-				| Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor 
-				| mauris condimentum nibh, ut fermentum massa justo sit amet risus. Aenean eu leo quam. Pellentesque 
-				| ornare sem lacinia quam venenatis vestibulum.
-		.interest.span4
-			h3 Porta Nullam Risus Commodo
-			p 
-				| Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor 
-				| mauris condimentum nibh, ut fermentum massa justo sit amet risus. Aenean eu leo quam. Pellentesque 
-				| ornare sem lacinia quam venenatis vestibulum.
+	#big-info
+		.container
+			.row
+				.span12
+					h2 Donec ullamcorper nulla non metus auctor fringilla.
+					p 
+						| Nulla vitae elit libero, a pharetra augue. Curabitur blandit tempus porttitor. Morbi leo risus, 
+						| porta ac consectetur ac, vestibulum at eros. Etiam porta sem malesuada magna mollis euismod. Nullam 
+					a.cta(href="/auth/twitter") Find Street Performers
+	#three-col
+		.container
+			.row
+				.interest.span4
+					h3 Porta Nullam Risus Commodo
+					p 
+						| Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor 
+						| mauris condimentum nibh, ut fermentum massa justo sit amet risus. Aenean eu leo quam. Pellentesque 
+						| ornare sem lacinia quam venenatis vestibulum.
+				.interest.span4
+					h3 Porta Nullam Risus Commodo
+					p 
+						| Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor 
+						| mauris condimentum nibh, ut fermentum massa justo sit amet risus. Aenean eu leo quam. Pellentesque 
+						| ornare sem lacinia quam venenatis vestibulum.
+				.interest.span4
+					h3 Porta Nullam Risus Commodo
+					p 
+						| Cras mattis consectetur purus sit amet fermentum. Fusce dapibus, tellus ac cursus commodo, tortor 
+						| mauris condimentum nibh, ut fermentum massa justo sit amet risus. Aenean eu leo quam. Pellentesque 
+						| ornare sem lacinia quam venenatis vestibulum.

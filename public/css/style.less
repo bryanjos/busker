@@ -3,6 +3,100 @@
 @import "bootstrap/variables.less";
 @import "font-awesome/font-awesome.less";
 
+@orange: #ffbb29;
+
+.heading-font{
+	font-family: 'Noto Serif', serif;
+}
+
+
+#header{
+	background-image:url('/img/bkgd.png');
+	background-repeat: repeat-x;
+	height:46px;
+	padding-top:20px;
+	h1{
+		.heading-font;
+		font-size: 17px;
+		text-transform: uppercase;
+		font-style: italic;
+		margin-top: 7px;
+		line-height: 17px;
+		a{
+			color: #fff;
+			&:hover{
+					text-decoration: none;		
+			}
+			span{
+				color: @orange;
+			}
+		}
+	}
+	.navigation{
+		list-style: none;
+		margin-top:5px;
+		li{
+			float:left;
+			margin-left:20px;
+			a{
+				display:block;
+				font-size:14px;
+				color:#fff;
+				text-transform: uppercase;
+			}
+		}
+	}
+}
+
+#big-info{
+	background-image:url('/img/banner.png');
+	background-size:100%;
+	min-height:391px;
+	color:#fff;
+	text-align: center;
+	h2{
+		.heading-font;
+		text-shadow:1px 1px 7px #000;
+		font-size:36px;
+		text-align: center;
+		margin-top:80px;
+	}
+	p{
+		.heading-font;
+		text-shadow:1px 1px 7px #000;
+		font-weight: normal;
+		font-style: italic;
+		font-size: 24px;
+		line-height: 32px;
+		padding-top: 30px;
+		width:80%;
+		margin:0 auto;
+	}
+	a.cta{
+		box-shadow:1px 1px 7px #000;
+		margin-top:40px;
+		background-color:@orange;
+		color:#322508;
+		padding:20px 30px;
+		display:inline-block;
+		border-radius:10px;
+		text-transform: uppercase;
+		font-weight: bold;
+	}
+}
+
+#three-col{
+	padding-top:40px;
+	h3{
+		font-size:18px;
+	}
+}
+
+#footer{
+	font-size:18px;
+	font-weight:bold;
+}
+
 #map{
 	width:770px;
 	height:500px;
