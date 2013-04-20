@@ -197,3 +197,9 @@ exports.user_profile = function(req, res){
 exports.events = function(req, res){
     res.render('events');
 }
+exports.event = function(req, res){
+    res.render('event');
+}
+exports.create_profile = function(req, res){
+    res.render('create-profile');
+}
