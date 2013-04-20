@@ -24,18 +24,5 @@ block content
 				h2.twitter-activity Twitter Activity
                 each tweet in tweets
                     .item
-                        p #{tweet.slug}
-                            strong
-                                a(href='/events/#{event.slug}') #{event.user.artist_name}
-                        .location #{event.location}
-                        .time From #{event.start} to #{event.end}
-				.item
-					p Killer set on Royal <a href='#'>@Dogshit</a> <a href='#'>#trouvere131</a> <a href='#'>#NOLA</a> <a href='#'>http://t.co/12123</a>
-				.item
-					p Killer set on Royal <a href='#'>@Dogshit</a> <a href='#'>#trouvere131</a> <a href='#'>#NOLA</a> <a href='#'>http://t.co/12123</a>
-				.item
-					p Killer set on Royal <a href='#'>@Dogshit</a> <a href='#'>#trouvere131</a> <a href='#'>#NOLA</a> <a href='#'>http://t.co/12123</a>
-				.item
-					p Killer set on Royal <a href='#'>@Dogshit</a> <a href='#'>#trouvere131</a> <a href='#'>#NOLA</a> <a href='#'>http://t.co/12123</a>
-				.item
-					p Killer set on Royal <a href='#'>@Dogshit</a> <a href='#'>#trouvere131</a> <a href='#'>#NOLA</a> <a href='#'>http://t.co/12123</a>
+                        p #{tweet.text}
+                        p #{tweet.screen_name}
