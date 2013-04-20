@@ -25,7 +25,8 @@ user schema
     artist_name,
     picture,
     digital_tip_jar_url,
-    created
+    created,
+    description
 }
 */
 
@@ -257,7 +258,7 @@ exports.profile = function(req, res){
         if(user == null){
             return res.send(404);
         }
-
+        console.log(user);
         res.render('profile', {user:utils.getUser(req), message: req.flash('error'), performer: user});
     });
 };
