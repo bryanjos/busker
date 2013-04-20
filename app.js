@@ -51,10 +51,12 @@ app.get("/profiles/:slug/edit", routes.ensureAuthenticated, routes.edit_profile)
 app.post("/profiles/:slug/edit", routes.ensureAuthenticated, routes.edit_profile_post);
 
 app.get("/profiles/:slug/events", routes.user_events);
+app.get("/profiles/:slug/events.json", routes.user_events_json);
 app.get("/events/create", routes.ensureAuthenticated, routes.new_event);
 app.post("/events/create", routes.ensureAuthenticated, routes.new_event_post);
 
 app.get("/events", routes.events);
+app.get("/events.json", routes.events_json);
 app.get("/events/:event_slug", routes.event);
 app.get("/events/:event_slug/edit", routes.ensureAuthenticated, routes.edit_event);
 app.post("/events/:event_slug/edit", routes.ensureAuthenticated, routes.edit_event_post);
