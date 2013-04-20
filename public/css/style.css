@@ -9070,6 +9070,8 @@ ul.icons li [class*=" icon-"] {
 @media (max-width: 767px) {
   #big-info p {
     padding-top: 10px;
+    line-height: 23px;
+    font-size: 19px;
   }
 }
 #big-info a.cta {
@@ -9103,6 +9105,12 @@ ul.icons li [class*=" icon-"] {
 @media (max-width: 767px) {
   #small-info {
     display: none;
+  }
+}
+@media (max-width: 767px) {
+  .side-margin-mobile {
+    padding-left: 10px;
+    padding-right: 10px;
   }
 }
 #three-col {

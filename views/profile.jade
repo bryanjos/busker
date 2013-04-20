@@ -2,21 +2,33 @@ extends layout
 
 block content
 	include small-info
-	.container
-		.row
-			.span5
-				h2 #{performer.artist_name}
-				.description #{performer.description}
-				p 
-					- if(performer.digital_tip_jar_url)
-						a.btn.btn-primary(target='_blank', href='#{performer.digital_tip_jar_url}') Give a Tip
-			.span3
-				h3 Events
-				.item
-					a(href='#') Corner of St. Ann and Royal
-					.date April 24th from 3pm to 5pm
-				.newevent
-					a.btn(href="/events/create") Add New Event
-			.span4
-				- if(performer.picture)
-					img(src="#{performer.picture}")
+	.side-margin-mobile
+		.container
+			.row
+				.span5
+					h2 #{performer.artist_name}
+					.description #{performer.description}
+					p 
+						- if(performer.digital_tip_jar_url)
+							a.btn.btn-primary(target='_blank', href='#{performer.digital_tip_jar_url}') Give a Tip
+				.span3
+					h3 Events
+					each event in events
+						.item
+							.band
+								strong
+									a(href='/events/#{event.slug}') #{event.user.artist_name}
+							.location #{event.location}
+							.time From #{event.start} to #{event.end}
+							hr
+				.span4
+					- if(performer.picture)
+						img(src="#{performer.picture}")
+					.action
+						ul
+							li 
+								a(href='/create-profile') Edit Account
+							li 
+								a(href='/profiles/#{performer.slug}/events') My Events
+							li 
+								a(href='/events/create') Create Event

@@ -4,9 +4,8 @@ block content
 	include small-info
 	.container
 		.row
-			- if(event.picture)
-				.span4
-					img(src="#{event.user.picture}")
+			.span4
+				img(src="#{event.user.picture}")
 			.span5
 				h2.street-performer #{event.user.artist_name}
 				p #{event.user.description}
@@ -16,20 +15,17 @@ block content
 				.time 
 					strong Time
 					|  From #{event.start} to #{event.end}
+					<br><Br>
 				.give-a-tip
-					a(href='#') Give a Tip
+					a.btn(href='#') Give a Tip
+					<Br><br>
 				.tweet
 					a(href="https://twitter.com/intent/tweet?button_hashtag=buskerue#{event.slug}", class="twitter-hashtag-button", data-size="large", data-related="buskerue", data-url="http://buskerue.com/event/#{event.slug}") Tweet #buskerue123
 					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 			.span3
 				h2.twitter-activity Twitter Activity
-				.item
-					p Killer set on Royal <a href='#'>@Dogshit</a> <a href='#'>#trouvere131</a> <a href='#'>#NOLA</a> <a href='#'>http://t.co/12123</a>
-				.item
-					p Killer set on Royal <a href='#'>@Dogshit</a> <a href='#'>#trouvere131</a> <a href='#'>#NOLA</a> <a href='#'>http://t.co/12123</a>
-				.item
-					p Killer set on Royal <a href='#'>@Dogshit</a> <a href='#'>#trouvere131</a> <a href='#'>#NOLA</a> <a href='#'>http://t.co/12123</a>
-				.item
-					p Killer set on Royal <a href='#'>@Dogshit</a> <a href='#'>#trouvere131</a> <a href='#'>#NOLA</a> <a href='#'>http://t.co/12123</a>
-				.item
-					p Killer set on Royal <a href='#'>@Dogshit</a> <a href='#'>#trouvere131</a> <a href='#'>#NOLA</a> <a href='#'>http://t.co/12123</a>
+				each tweet in tweets
+					.item
+						p #{tweet.text}
+						hr
+

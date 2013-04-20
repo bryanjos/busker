@@ -17,11 +17,11 @@ $(document).ready(function(){
 
 	var map = L.map('map');
 	map.scrollWheelZoom.disable();
-	map.locate({ setView: true, watch: true });
+	map.locate({ setView: true });
 	map.on("load", function(){
 	  map.setZoom(14);
 	});
-	L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/256/{z}/{x}/{y}.png', {}).addTo(map);
+	L.tileLayer('http://{s}.tile.cloudmade.com/d4fc77ea4a63471cab2423e66626cbb6/997/256/{z}/{x}/{y}.png', {}).addTo(map);
 
 
 	var popup = L.popup();
