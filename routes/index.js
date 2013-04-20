@@ -120,9 +120,22 @@ validateUpdateProfile = function(req, callback){
         db.performers.findOne({_id: req.body._id}, function(error, performer){
             if(performer == null){
                 e = {};
-                e.message = 'Email taken';
+                e.message = 'No performer found';
                 callback(e, null);
+            }else if(error){
+                callback(error, null);
+            }else{
+                performer.artist_name = req.body.artist_name;
+                performer.slug = util.slugify(req.body.artist_name);
+                performer.description = req.body.description;
+                performer.image = req.body.image;
+                performer.digital_tip_jar_url = req.body.digital_tip_jar_url;
+                performer.user = req.user;
+
+                callback(null, performer);
             }
+
+
             if(user && user.username != req.user.username){
                 e = {};
                 e.message = 'Email taken';
