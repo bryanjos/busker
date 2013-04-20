@@ -287,16 +287,17 @@ exports.create_profile = function(req, res){
 };
 
 exports.create_profile_post = function(req, res){
-    validateUpdate(req, function(e, user){
+    validateNewProfile(req, function(e, performer){
         if(e){
+            console.log(e);
             return res.render('create-profile', {user:req.user, message: e.message});
         }
 
-        db.users.save(user, function (err) {
+        db.performers.save(performer, function (err) {
             if (err){
                 res.render('create-profile', { user:req.user, message: req.flash('error') });
             }else{
-                res.redirect('/');
+                res.redirect('/profiles/' + performer._id);
             }
         });
     });
@@ -317,7 +318,7 @@ exports.edit_profile = function(req, res){
 };
 
 exports.edit_profile_post = function(req, res, next){
-    validateNewProfile(req, function(e, profile){
+    validateUpdateProfile(req, function(e, profile){
         if(e){
             return res.render('/create-profile', {user:req.user, message: e.message});
         }
