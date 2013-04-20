@@ -44,18 +44,18 @@ app.get('/auth/twitter/callback', routes.auth_twitter);
 app.get("/create-profile", routes.ensureAuthenticated, routes.create_profile);
 app.post("/create-profile", routes.ensureAuthenticated, routes.create_profile_post);
 
-app.get("/profiles/:id", routes.profile);
+app.get("/profiles/:slug", routes.profile);
 
-app.get("/profiles/:id/edit", routes.ensureAuthenticated, routes.edit_profile);
-app.post("/profiles/:id/edit", routes.ensureAuthenticated, routes.edit_profile_post);
+app.get("/profiles/:slug/edit", routes.ensureAuthenticated, routes.edit_profile);
+app.post("/profiles/:slug/edit", routes.ensureAuthenticated, routes.edit_profile_post);
 
-app.get("/profiles/:id/events", routes.performer_events);
+app.get("/profiles/:slug/events", routes.performer_events);
 app.get("/events/create", routes.ensureAuthenticated, routes.new_event);
 app.post("/events/create", routes.ensureAuthenticated, routes.new_event_post);
 
-app.get("/profiles/:performer_id/events/:event_id", routes.event);
-app.get("/profiles/:performer_id/events/:event_id/edit", routes.ensureAuthenticated, routes.edit_event);
-app.post("/profiles/:performer_id/events/:event_id/edit", routes.ensureAuthenticated, routes.edit_event_post);
+app.get("/profiles/:performer_slug/events/:event_slug", routes.event);
+app.get("/profiles/:performer_slug/events/:event_slug/edit", routes.ensureAuthenticated, routes.edit_event);
+app.post("/profiles/:performer_slug/events/:event_slug/edit", routes.ensureAuthenticated, routes.edit_event_post);
 
 app.get("/events", routes.events);
 
