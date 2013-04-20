@@ -11,7 +11,7 @@
 @media (min-width: 768px) and (max-width: 979px) {}
 
 body{
-	min-width:500px;
+
 	@media (max-width: 767px) {
 			padding-left:0px;
 			padding-right:0px;
@@ -26,8 +26,9 @@ body{
 
 #header{
 	background-image:url('/img/bkgd.png');
+	background-color:#191a21;
 	background-repeat: repeat-x;
-	height:46px;
+	//height:46px;
 	padding-top:20px;
 	@media (max-width: 767px) {
 		padding-left:10px;
@@ -40,6 +41,7 @@ body{
 		font-style: italic;
 		margin-top: 7px;
 		line-height: 17px;
+		margin-bottom:18px;
 		a{
 			color: #fff;
 			&:hover{
@@ -50,9 +52,24 @@ body{
 			}
 		}
 	}
+	.mobile-menu{
+		display:none;
+		margin-top:5px;
+		float:right;
+		a{
+			display:block;
+			font-size:14px;
+			color:#fff;
+			text-transform: uppercase;
+		}
+		@media (max-width: 767px) {
+			display:block;
+		}
+	}
 	.navigation{
 		list-style: none;
 		margin-top:5px;
+		float:right;
 		li{
 			float:left;
 			margin-left:20px;
@@ -61,6 +78,18 @@ body{
 				font-size:14px;
 				color:#fff;
 				text-transform: uppercase;
+			}
+		}
+		@media (max-width: 768px) {
+			display: none;
+			width:100%;
+			li{
+				float:none;
+				margin:0;
+				padding:10px 0;
+				a{
+					color:@orange;
+				}
 			}
 		}
 	}

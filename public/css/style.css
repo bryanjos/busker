@@ -8938,9 +8938,6 @@ ul.icons li [class*=" icon-"] {
 @media (min-width: 768px) and (max-width: 979px) {
   
 }
-body {
-  min-width: 500px;
-}
 @media (max-width: 767px) {
   body {
     padding-left: 0px;
@@ -8952,8 +8949,8 @@ body {
 }
 #header {
   background-image: url('/img/bkgd.png');
+  background-color: #191a21;
   background-repeat: repeat-x;
-  height: 46px;
   padding-top: 20px;
 }
 @media (max-width: 767px) {
@@ -8969,6 +8966,7 @@ body {
   font-style: italic;
   margin-top: 7px;
   line-height: 17px;
+  margin-bottom: 18px;
 }
 #header h1 a {
   color: #fff;
@@ -8979,9 +8977,26 @@ body {
 #header h1 a span {
   color: #ffbb29;
 }
+#header .mobile-menu {
+  display: none;
+  margin-top: 5px;
+  float: right;
+}
+#header .mobile-menu a {
+  display: block;
+  font-size: 14px;
+  color: #fff;
+  text-transform: uppercase;
+}
+@media (max-width: 767px) {
+  #header .mobile-menu {
+    display: block;
+  }
+}
 #header .navigation {
   list-style: none;
   margin-top: 5px;
+  float: right;
 }
 #header .navigation li {
   float: left;
@@ -8992,6 +9007,20 @@ body {
   font-size: 14px;
   color: #fff;
   text-transform: uppercase;
+}
+@media (max-width: 768px) {
+  #header .navigation {
+    display: none;
+    width: 100%;
+  }
+  #header .navigation li {
+    float: none;
+    margin: 0;
+    padding: 10px 0;
+  }
+  #header .navigation li a {
+    color: #ffbb29;
+  }
 }
 #big-info {
   background-image: url('/img/banner.png');

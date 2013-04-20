@@ -4,6 +4,8 @@ L.tileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/997/
 	maxZoom: 18,
 }).addTo(map);
 
+map.locate({setView: true, maxZoom: 16});
+
 
 L.marker([51.5, -0.09]).addTo(map)
 	.bindPopup("<b>Hello world!</b><br />I am a popup.").openPopup();
