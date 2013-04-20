@@ -2,7 +2,6 @@ var mongojs = require('mongojs')
     , passport = require('passport')
     , TwitterStrategy = require('passport-twitter').Strategy
     , fs = require('fs')
-    , bcrypt = require('bcrypt')
     , check = require('validator').check
     , sanitize = require('validator').sanitize
     , underscore = require('underscore')
