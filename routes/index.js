@@ -1,5 +1,4 @@
 var mongojs = require('mongojs')
-    , ObjectId = mongojs.ObjectId
     , passport = require('passport')
     , TwitterStrategy = require('passport-twitter').Strategy
     , fs = require('fs')
@@ -11,7 +10,7 @@ var mongojs = require('mongojs')
     , config = require('../config');
 
 
-var db = mongojs(config.DB_NAME, ['users', 'performers', 'events' ]);
+var db = mongojs(config.DB_NAME, ['users', 'events' ]);
 var slug_length = 4;
 
 /*
@@ -20,27 +19,15 @@ user schema
     _id,
     slug,
     twitter_id,
-    displayName,
     username,
     token,
     token_secret,
+    artist_name,
+    picture,
+    digital_tip_jar_url,
     created
 }
 */
-
-/*
- performer schema
- {
-    _id,
-    slug,
-    artist_name,
-    description,
-    picture,
-    digital_tip_jar_url,
-    user,
-    created
- }
- */
 
 
 /*
@@ -52,7 +39,7 @@ user schema
     location,
     start,
     end,
-    performer,
+    user,
     created
  }
  */
@@ -78,7 +65,7 @@ passport.use(new TwitterStrategy({
             user.token = token;
             user.token_secret = tokenSecret;
 
-            db.users.save(user, function (err) {
+            db.users.save(user, function (err, user) {
                 if (err) { return done(err); }
 
                 done(null, user);
@@ -98,17 +85,13 @@ passport.deserializeUser(function(twitter_id, done) {
     });
 });
 
-
-validateNewProfile = function(req, callback){
+validateUpdateProfile = function(req, callback){
     try{
         check(req.body.name, 'Artist Name Required').notEmpty();
-        var performer = {};
-        performer.artist_name = req.body.name;
-        performer.description = req.body.description;
-        performer.digital_tip_jar_url = req.body.digital_tip_url;
-        performer.user = req.user;
-        performer.created = Date.now;
-        performer.slug = utils.generateRandomToken(slug_length);
+
+        req.user.artist_name = req.body.name;
+        req.user.description = req.body.description;
+        req.user.digital_tip_jar_url = req.body.digital_tip_url;
 
         if(req.files.picture.name != ''){
             utils.uploadPhoto(req.files.picture, function(err, data){
@@ -116,49 +99,12 @@ validateNewProfile = function(req, callback){
                     callback(err, null);
                 }
 
-                performer.picture = data;
-                callback(null, performer);
+                req.user.picture = data;
+                callback(null, req.user);
             });
         }else{
-            callback(null, performer);
+            callback(null, req.user);
         }
-
-    } catch (e) {
-        callback(e, null);
-    }
-};
-
-validateUpdateProfile = function(req, callback){
-    try{
-        check(req.body.artist_name, 'Artist Name Required').notEmpty();
-
-        db.performers.findOne({slug: req.body.slug}, function(error, performer){
-            if(performer == null){
-                e = {};
-                e.message = 'No performer found';
-                callback(e, null);
-            }else if(error){
-                callback(error, null);
-            }else{
-                performer.artist_name = req.body.name;
-                performer.description = req.body.description;
-                performer.digital_tip_jar_url = req.body.digital_tip_url;
-                performer.user = req.user;
-
-                if(req.files.picture.name != ''){
-                    utils.uploadPhoto(req.files.picture, function(err, data){
-                        if(err){
-                            callback(err, null);
-                        }
-
-                        performer.picture = data;
-                        callback(null, performer);
-                    });
-                }else{
-                    callback(null, performer);
-                }
-            }
-        });
 
     } catch (e) {
         callback(e, null);
@@ -168,6 +114,8 @@ validateUpdateProfile = function(req, callback){
 
 validateNewEvent = function(req, callback){
     try{
+
+        console.log(req.body);
         check(req.body.start, 'Start Required').notEmpty();
         check(req.body.end, 'End Required').notEmpty();
 
@@ -178,15 +126,8 @@ validateNewEvent = function(req, callback){
         event.end = req.body.end;
         event.created = Date.now;
         event.slug = utils.generateRandomToken(slug_length);
-
-        db.performers.findOne({slug: req.params.id}, function(e, performer){
-            if(e){
-                callback(e, null);
-            }else{
-                event.performer = performer;
-                callback(null, event);
-            }
-        });
+        event.user = req.user;
+        callback(null, event);
 
     } catch (e) {
         callback(e, null);
@@ -205,15 +146,8 @@ validateUpdateEvent = function(req, callback){
                 event.location = req.body.location;
                 event.start = req.body.start;
                 event.end = req.body.end;
-
-                db.performers.findOne({slug: req.params.performer_slug}, function(e, performer){
-                    if(e){
-                        callback(e, null);
-                    }else{
-                        event.performer = performer;
-                        callback(null, event);
-                    }
-                });
+                event.user = req.user;
+                callback(null, event);
 
             }else{
                 e = {
@@ -262,8 +196,8 @@ exports.log_out = function(req, res){
     res.redirect('/');
 };
 
-exports.performer_events = function(req, res){
-    db.events.find({ "performer.slug" : req.params.slug}, function(err, events){
+exports.user_events = function(req, res){
+    db.events.find({ "user.slug" : req.params.slug}, function(err, events){
         if(err){
             return res.redirect('/');
         }
@@ -298,72 +232,62 @@ exports.create_profile = function(req, res){
 };
 
 exports.create_profile_post = function(req, res){
-    validateNewProfile(req, function(e, performer){
+    validateUpdateProfile(req, function(e, user){
         if(e){
             console.log(e);
             return res.render('create-profile', {user: utils.getUser(req), message: e.message});
         }
 
-        db.performers.save(performer, function (err) {
+        db.users.save(user, function (err) {
             if (err){
                 res.render('create-profile', { user: utils.getUser(req), message: req.flash('error') });
             }else{
-                res.redirect('/profiles/' + performer.slug);
+                res.redirect('/profiles/' + user.slug);
             }
         });
     });
 };
 
 exports.profile = function(req, res){
-    db.performers.findOne({slug: req.params.slug}, function(err, performer){
+    db.users.findOne({slug: req.params.slug}, function(err, user){
         if(err){
             return res.redirect('/');
         }
 
-        if(performer == null){
+        if(user == null){
             return res.send(404);
         }
 
-        res.render('profile', {user: utils.getUser(req), message: req.flash('error'), performer: performer});
+        res.render('profile', {user:utils.getUser(req), message: req.flash('error'), performer: user});
     });
 };
 
 exports.edit_profile = function(req, res){
-    db.performers.findOne({slug: req.params.slug}, function(err, performer){
+    db.users.findOne({slug: req.params.slug}, function(err, user){
         if(err){
             return res.redirect('/');
         }
 
-        if(performer == null || performer.user.twitter_id != req.user.twitter_id){
+        if(user == null || user.slug != req.user.slug){
             return res.send(404);
         }
 
-        res.render('create-profile', {user: utils.getUser(req), message: req.flash('error'), performer: performer});
+        res.render('create-profile', {user:utils.getUser(req), message: req.flash('error'), performer: user});
     });
 };
 
 exports.edit_profile_post = function(req, res, next){
-    db.performers.findOne({slug: req.params.slug}, function(err, performer){
+    validateUpdateProfile(req, function(e, user){
         if(err){
             return res.render('/create-profile', {user: utils.getUser(req), message: e.message});
         }
 
-        if(performer == null || performer.user.twitter_id != req.user.twitter_id){
-            return res.send(404);
-        }
-
-        validateUpdateProfile(req, function(e, profile){
-            if(e){
-                return res.render('/create-profile', {user: utils.getUser(req), message: e.message});
+        db.users.save(user, function (err, user) {
+            if (err){
+                res.render('create-profile', { user:utils.getUser(req), message: req.flash('error') });
+            }else{
+                res.redirect('/profiles/' + user.slug);
             }
-
-            db.performers.save(profile, function (err) {
-                if (err){
-                    res.render('/create-profile', { user: utils.getUser(req), message: null });
-                }else{
-                    res.redirect('/profiles/' + performer.slug);
-                }
-            });
         });
     });
 };
@@ -394,7 +318,7 @@ exports.edit_event = function(req, res){
 };
 
 exports.edit_event_post = function(req, res){
-    validateNewEvent(req, function(e, event){
+    validateUpdateEvent(req, function(e, event){
         if(e){
             return res.render('new-event', {user: utils.getUser(req), message: e.message});
         }

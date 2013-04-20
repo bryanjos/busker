@@ -11,6 +11,7 @@ L.marker([51.5, -0.09]).addTo(map)
 var popup = L.popup();
 
 function onMapClick(e) {
+    $("#coordinates").val(e.latlng.toString());
 	popup
 		.setLatLng(e.latlng)
 		.setContent("You clicked the map at " + e.latlng.toString())

@@ -50,7 +50,7 @@ app.get("/profiles/:slug", routes.profile);
 app.get("/profiles/:slug/edit", routes.ensureAuthenticated, routes.edit_profile);
 app.post("/profiles/:slug/edit", routes.ensureAuthenticated, routes.edit_profile_post);
 
-app.get("/profiles/:slug/events", routes.performer_events);
+app.get("/profiles/:slug/events", routes.user_events);
 app.get("/events/create", routes.ensureAuthenticated, routes.new_event);
 app.post("/events/create", routes.ensureAuthenticated, routes.new_event_post);
 
