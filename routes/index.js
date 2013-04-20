@@ -1,4 +1,5 @@
 var mongojs = require('mongojs')
+    , ObjectId = mongojs.ObjectId
     , passport = require('passport')
     , TwitterStrategy = require('passport-twitter').Strategy
     , fs = require('fs')
@@ -127,7 +128,7 @@ validateUpdateProfile = function(req, callback){
     try{
         check(req.body.artist_name, 'Artist Name Required').notEmpty();
 
-        db.performers.findOne({_id: req.body._id}, function(error, performer){
+        db.performers.findOne({_id: ObjectId(req.body._id)}, function(error, performer){
             if(performer == null){
                 e = {};
                 e.message = 'No performer found';
@@ -193,7 +194,7 @@ validateUpdateEvent = function(req, callback){
         check(req.body.start, 'Start Required').notEmpty();
         check(req.body.end, 'End Required').notEmpty();
 
-        db.events.findOne({_id: req.body._id}, function(error, event){
+        db.events.findOne({_id: ObjectId(req.body._id)}, function(error, event){
             if(event){
                 event.coordinates = req.body.coordinates;
                 event.location = req.body.location;
@@ -229,7 +230,7 @@ validateUpdateEvent = function(req, callback){
 
 exports.ensureAuthenticated = function(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
-    res.redirect('/login')
+    res.redirect('/')
 };
 
 
@@ -251,16 +252,34 @@ exports.log_out = function(req, res){
 };
 
 exports.performer_events = function(req, res){
-    res.render('events');
+    db.events.find({ "performer._id" : ObjectId(req.params._id)}, function(err, events){
+        if(err){
+            return res.redirect('/');
+        }
+
+        res.render('events', {user:req.user, message: req.flash('error'), events: events});
+    });
 };
 
 exports.events = function(req, res){
-    res.render('events');
+    db.events.find({}, function(err, events){
+        if(err){
+            return res.redirect('/');
+        }
+
+        res.render('events', {user:req.user, message: req.flash('error'), events: events});
+    });
 };
 
 
 exports.event = function(req, res){
-    res.render('event');
+    db.events.findOne({_id: ObjectId(req.params.event_id)}, function(err, event){
+        if(err){
+            return res.redirect('/');
+        }
+
+        res.render('event', {user:req.user, message: req.flash('error'), event: event});
+    });
 };
 
 exports.create_profile = function(req, res){
@@ -268,23 +287,34 @@ exports.create_profile = function(req, res){
 };
 
 exports.create_profile_post = function(req, res){
-    validateUpdate(req, function(e, user){
+    validateNewProfile(req, function(e, performer){
         if(e){
+            console.log(e);
             return res.render('create-profile', {user:req.user, message: e.message});
         }
 
-        db.users.save(user, function (err) {
+        db.performers.save(performer, function (err) {
             if (err){
                 res.render('create-profile', { user:req.user, message: req.flash('error') });
             }else{
-                res.redirect('/');
+                res.redirect('/profiles/' + performer._id);
             }
         });
     });
 };
 
 exports.profile = function(req, res){
-    res.render('profile');
+    db.performers.findOne({_id: ObjectId(req.params.id)}, function(err, performer){
+        if(err){
+            return res.redirect('/');
+        }
+
+        if(performer == null){
+            return res.send(404);
+        }
+
+        res.render('profile', {user:req.user, message: req.flash('error'), performer: performer});
+    });
 };
 
 exports.edit_profile = function(req, res){
@@ -292,7 +322,7 @@ exports.edit_profile = function(req, res){
 };
 
 exports.edit_profile_post = function(req, res, next){
-    validateNewProfile(req, function(e, profile){
+    validateUpdateProfile(req, function(e, profile){
         if(e){
             return res.render('/create-profile', {user:req.user, message: e.message});
         }
