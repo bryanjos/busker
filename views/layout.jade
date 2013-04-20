@@ -16,8 +16,9 @@ html.no-js
     meta(name='viewport', content='width=device-width')
     link(rel='stylesheet', href='css/style.css')
   body
-
-    block content
-    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
-    script
-      window.jQuery || document.write('<script src="javascripts/vendor/jquery-1.9.1.min.js"><\\/script>')
+    #page.container
+      block content
+      script(src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+      script(src='js/holder/holder.js')
+      script
+        window.jQuery || document.write('<script src="javascripts/vendor/jquery-1.9.1.min.js"><\\/script>')
