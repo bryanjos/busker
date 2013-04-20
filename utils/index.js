@@ -1,5 +1,4 @@
 var path = require('path')
-    , bcrypt = require('bcrypt')
     , rest = require('restler')
     , config = require('../config');
 
@@ -17,11 +16,6 @@ exports.path = function() {
 exports.getExtension = function(filename) {
     var ext = path.extname(filename||'').split('.');
     return ext[ext.length - 1];
-};
-
-
-exports.validPassword = function(user, password){
-    return bcrypt.compareSync(password, user.password);
 };
 
 exports.generateRandomToken = function(user){

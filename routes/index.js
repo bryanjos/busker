@@ -1,6 +1,6 @@
 var mongojs = require('mongojs')
     , passport = require('passport')
-    , LocalStrategy = require('passport-local').Strategy
+    , TwitterStrategy = require('passport-twitter').Strategy
     , fs = require('fs')
     , bcrypt = require('bcrypt')
     , check = require('validator').check
@@ -11,33 +11,73 @@ var mongojs = require('mongojs')
     , config = require('../config');
 
 
-var db = mongojs(config.DB_NAME, ['users']);
+var db = mongojs(config.DB_NAME, ['users', 'events' ]);
 
-passport.use(new LocalStrategy(
-    function(username, password, done) {
-        db.users.findOne({ username: username }, function (err, user) {
+
+/*
+user schema
+{
+    twitter_id,
+    displayName,
+    token,
+    token_secret,
+    email,
+    type,
+    created
+}
+*/
+
+
+/*
+ event schema
+ {
+    id,
+    coordinates: {lat, lon},
+    location,
+    start,
+    end,
+    created
+ }
+ */
+
+
+passport.use(new TwitterStrategy({
+        consumerKey: config.TWITTER_CONSUMER_KEY,
+        consumerSecret: config.TWITTER_CONSUMER_SECRET,
+        callbackURL: config.TWITTER_CALLBACK
+    },
+    function(token, tokenSecret, profile, done) {
+        db.users.findOne({twitter_id: profile.id}, function(err, user){
             if (err) { return done(err); }
 
-            if (!user) {
-                return done(null, false, { message: 'Incorrect username.' });
+            if(!user){
+                user = { created: Date.now };
             }
 
-            if (!utils.validPassword(user, password)) {
-                return done(null, false, { message: 'Incorrect password.' });
-            }
+            user.twitter_id = profile.id;
+            user.displayName = profile.displayName;
+            user.token = token;
+            user.token_secret = tokenSecret;
 
-            return done(null, user);
+            if(profile.emails && profile.emails.length > 0)
+                user.email = profile.emails[0].value;
+
+            db.users.save(user, function (err) {
+                if (err) { return done(err); }
+
+                done(null, user);
+            });
         });
     }
 ));
 
 
 passport.serializeUser(function(user, done) {
-    return done(null, user.username);
+    return done(null, user.twitter_id);
 });
 
-passport.deserializeUser(function(username, done) {
-    db.users.findOne( {username: username } , function (err, user) {
+passport.deserializeUser(function(twitter_id, done) {
+    db.users.findOne( {twitter_id: twitter_id } , function (err, user) {
         done(err, user);
     });
 });
@@ -106,6 +146,59 @@ validateUpdate = function(req, callback){
 };
 
 
+validateNewEvent = function(req, callback){
+    try{
+        check(req.body.start, 'Start Required').notEmpty();
+        check(req.body.end, 'End Required').notEmpty();
+
+        var event = {};
+        event.id = '';
+        event.coordinates = { lat: req.body.lat, lon: req.body.lon };
+        event.location = req.body.location;
+        event.start = req.body.start;
+        event.end = req.body.end;
+        event.performer = req.user;
+
+        callback(null, event);
+
+    } catch (e) {
+        callback(e, null);
+    }
+};
+
+
+validateUpdateEvent = function(req, callback){
+    try{
+        check(req.body.start, 'Start Required').notEmpty();
+        check(req.body.end, 'End Required').notEmpty();
+
+        db.events.findOne({id: req.body.id}, function(error, event){
+            if(event){
+                event.coordinates = { lat: req.body.lat, lon: req.body.lon };
+                event.location = req.body.location;
+                event.start = req.body.start;
+                event.end = req.body.end;
+                event.performer = req.user;
+
+                callback(null, event);
+            }else{
+                e = {
+                    message: 'No Event with that id exists'
+                };
+
+                callback(e, null);
+            }
+        });
+
+
+        callback(null, event);
+
+    } catch (e) {
+        callback(e, null);
+    }
+};
+
+
 exports.ensureAuthenticated = function(req, res, next) {
     if (req.isAuthenticated()) { return next(); }
     res.redirect('/login')
@@ -120,36 +213,11 @@ exports.index = function(req, res){
   res.render('index', { title: 'Express' });
 };
 
-
-exports.signup = function(req, res){
-    res.render('user_signup', {user: req.user, message: req.flash('error')});
-};
-
-exports.signup_post = function(req, res){
-
-    validateSignUp(req,function(e, user){
-        if(e != null){
-            return res.render('user_signup', {user: req.user, message: e.message});
-        }
-
-        db.users.save(user, function (err) {
-            if (err){
-                res.redirect('/signup');
-            }else{
-                req.flash('error', 'Signed up successfully');
-                res.redirect('/login');
-            }
-        });
-    });
-
-};
-
-exports.login = function(req, res){
-    res.render('user_login', {user: req.user, message: req.flash('error')});
-};
-
-exports.login_post = passport.authenticate('local',
-    { successRedirect: '/', failureRedirect: '/login', failureFlash: true }
+exports.auth_twitter = passport.authenticate('twitter',
+    { failureRedirect: '/', failureFlash: true },
+    function(req, res){
+        res.redirect('/create-profile');
+    }
 );
 
 exports.log_out = function(req, res){
@@ -162,7 +230,7 @@ exports.update = function(req, res, next){
 };
 
 exports.update_post = function(req, res, next){
-    validateUpdate(req,function(e, user){
+    validateUpdate(req, function(e, user){
         if(e){
             return res.render('user_update', {user:req.user, message: e.message});
         }
@@ -196,16 +264,52 @@ exports.user_profile = function(req, res){
 
 exports.events = function(req, res){
     res.render('events');
-}
+};
+
 exports.event = function(req, res){
     res.render('event');
-}
+};
+
 exports.create_profile = function(req, res){
-    res.render('create-profile');
-}
+    res.render('create-profile', { user:req.user, message: req.flash('error') });
+};
+
+exports.create_profile_post = function(req, res){
+    validateUpdate(req, function(e, user){
+        if(e){
+            return res.render('create-profile', {user:req.user, message: e.message});
+        }
+
+        db.users.save(user, function (err) {
+            if (err){
+                res.render('create-profile', { user:req.user, message: req.flash('error') });
+            }else{
+                res.redirect('/');
+            }
+        });
+    });
+};
+
 exports.profile = function(req, res){
     res.render('profile');
-}
+};
+
 exports.new_event = function(req, res){
     res.render('new-event');
-}
+};
+
+exports.new_event_post = function(req, res){
+    validateNewEvent(req, function(e, event){
+        if(e){
+            return res.render('new-event', {user:req.user, message: e.message});
+        }
+
+        db.events.save(event, function (err) {
+            if (err){
+                res.render('new-event', { user:req.user, message: req.flash('error') });
+            }else{
+                res.redirect('/');
+            }
+        });
+    });
+};
