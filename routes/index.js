@@ -279,6 +279,22 @@ exports.user_events = function(req, res){
     });
 };
 
+exports.user_events_json = function(req, res){
+    db.events.find({ "user.slug" : req.params.slug}, function(err, events){
+        if(err){
+            res.json(500, err);
+        }
+
+        for(var i=0; i < events.length; i++){
+            delete events[i].user.twitter_id;
+            delete events[i].user.token;
+            delete events[i].user.token_secret;
+        }
+
+        res.json(events);
+    });
+};
+
 exports.events = function(req, res){
     db.events.find({}, function(err, events){
         if(err){
@@ -286,6 +302,22 @@ exports.events = function(req, res){
         }
 
         res.render('events', {user: utils.getUser(req), message: req.flash('error'), events: events});
+    });
+};
+
+exports.events_json = function(req, res){
+    db.events.find({}, function(err, events){
+        if(err){
+            res.json(500, err);
+        }
+
+        for(var i=0; i < events.length; i++){
+            delete events[i].user.twitter_id;
+            delete events[i].user.token;
+            delete events[i].user.token_secret;
+        }
+
+        res.json(events);
     });
 };
 
