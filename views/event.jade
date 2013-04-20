@@ -7,15 +7,17 @@ block content
 			.span4
 				img(class="media-object", data-src="holder.js/370x300")
 			.span5
-				h2.street-performer Artist Tortor Aenean Cras
-				p
-					| Maecenas sed diam eget risus varius blandit sit amet non magna. Donec id elit 
-					| non mi porta gravida at eget metus. Vestibulum id ligula porta felis euismod semper. 
-					| Cras justo odio, dapibus ac facilisis in, egestas eget quam.
-				.location Location: Vehicula Condimentum Tellus
-				.time Time: 3pm to 5pm
-				.btn-group
-					a.btn(href='#') Give a Tip
+				h2.street-performer #{event.user.artist_name}
+				p #{event.user.description}
+				.location 
+					strong Location
+					|  #{event.location}
+				.time 
+					strong Time
+					|  From #{event.start} to #{event.end}
+				.give-a-tip
+					a(href='#') Give a Tip
+				.tweet
 					a(href="https://twitter.com/intent/tweet?button_hashtag=buskerue#{event.slug}", class="twitter-hashtag-button", data-size="large", data-related="buskerue", data-url="http://buskerue.com/event/#{event.slug}") Tweet #buskerue123
 					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 			.span3
