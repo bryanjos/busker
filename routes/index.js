@@ -322,7 +322,17 @@ exports.new_event_post = function(req, res){
 
 
 exports.edit_event = function(req, res){
-    res.render('new-event', {message: null});
+    db.events.findOne({slug: req.params.event_slug, "user.slug": req.user.slug}, function(err, event){
+        if(err){
+            return res.redirect('/');
+        }
+
+        if(event == null){
+           res.send(404)
+        }
+
+        res.render('new-event', {user: utils.getUser(req), message: req.flash('error'), event: event});
+    });
 };
 
 exports.edit_event_post = function(req, res){
