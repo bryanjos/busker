@@ -300,7 +300,7 @@ exports.events = function(req, res){
         if(err){
             return res.redirect('/');
         }
-
+        console.log(events[0]);
         res.render('events', {user: utils.getUser(req), message: req.flash('error'), events: events});
     });
 };
