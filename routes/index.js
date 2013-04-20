@@ -239,7 +239,9 @@ exports.ensureAuthenticated = function(req, res, next) {
  */
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express', message: null });
+
+  res.render('index', { title: 'Express', message: null, user: utils.getUser(req) });
+
 };
 
 exports.auth_twitter = passport.authenticate('twitter',
