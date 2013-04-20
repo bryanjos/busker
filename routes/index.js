@@ -116,16 +116,18 @@ validateUpdateProfile = function(req, callback){
 
 validateNewEvent = function(req, callback){
     try{
+        check(req.body.starttime, 'Start Required').notEmpty();
+        check(req.body.endtime, 'End Required').notEmpty();
+        check(req.body.location, 'Location Required').notEmpty();
+        check(req.body.coordinates, 'Please click on map for location of event').notEmpty();
 
-        console.log(req.body);
-        check(req.body.start, 'Start Required').notEmpty();
-        check(req.body.end, 'End Required').notEmpty();
+        var coordinates = JSON.parse(req.body.coordinates);
 
         var event = {};
-        event.coordinates = req.body.coordinates;
+        event.coordinates = {lng: coordinates.lng, lat: coordinates.lat};
         event.location = req.body.location;
-        event.start = req.body.start;
-        event.end = req.body.end;
+        event.start = req.body.starttime;
+        event.end = req.body.endtime;
         event.created = Date.now();
         event.slug = utils.generateRandomToken(slug_length);
         event.user = req.user;
@@ -139,12 +141,15 @@ validateNewEvent = function(req, callback){
 
 validateUpdateEvent = function(req, callback){
     try{
-        check(req.body.start, 'Start Required').notEmpty();
-        check(req.body.end, 'End Required').notEmpty();
+        check(req.body.starttime, 'Start Required').notEmpty();
+        check(req.body.endtime, 'End Required').notEmpty();
+        check(req.body.location, 'Location Required').notEmpty();
+        check(req.body.coordinates, 'Please click on map for location of event').notEmpty();
 
         db.events.findOne({slug: req.params.slug}, function(error, event){
             if(event){
-                event.coordinates = req.body.coordinates;
+                var coordinates = JSON.parse(req.body.coordinates);
+                event.coordinates = {lng: coordinates.lng, lat: coordinates.lat};
                 event.location = req.body.location;
                 event.start = req.body.start;
                 event.end = req.body.end;
@@ -196,37 +201,6 @@ exports.auth_twitter = passport.authenticate('twitter',
 exports.log_out = function(req, res){
     req.logout();
     res.redirect('/');
-};
-
-exports.user_events = function(req, res){
-    db.events.find({ "user.slug" : req.params.slug}, function(err, events){
-        if(err){
-            return res.redirect('/');
-        }
-
-        res.render('events', {user: utils.getUser(req), message: req.flash('error'), events: events});
-    });
-};
-
-exports.events = function(req, res){
-    db.events.find({}, function(err, events){
-        if(err){
-            return res.redirect('/');
-        }
-
-        res.render('events', {user: utils.getUser(req), message: req.flash('error'), events: events});
-    });
-};
-
-
-exports.event = function(req, res){
-    db.events.findOne({slug: req.params.event_slug}, function(err, event){
-        if(err){
-            return res.redirect('/');
-        }
-
-        res.render('event', {user: utils.getUser(req), message: req.flash('error'), event: event});
-    });
 };
 
 exports.create_profile = function(req, res){
@@ -294,8 +268,40 @@ exports.edit_profile_post = function(req, res, next){
     });
 };
 
+
+exports.user_events = function(req, res){
+    db.events.find({ "user.slug" : req.params.slug}, function(err, events){
+        if(err){
+            return res.redirect('/');
+        }
+
+        res.render('events', {user: utils.getUser(req), message: req.flash('error'), events: events});
+    });
+};
+
+exports.events = function(req, res){
+    db.events.find({}, function(err, events){
+        if(err){
+            return res.redirect('/');
+        }
+
+        res.render('events', {user: utils.getUser(req), message: req.flash('error'), events: events});
+    });
+};
+
+
+exports.event = function(req, res){
+    db.events.findOne({slug: req.params.event_slug}, function(err, event){
+        if(err){
+            return res.redirect('/');
+        }
+
+        res.render('event', {user: utils.getUser(req), message: req.flash('error'), event: event});
+    });
+};
+
 exports.new_event = function(req, res){
-    res.render('new-event', {message: null});
+    res.render('new-event', {user: utils.getUser(req), message: null});
 };
 
 exports.new_event_post = function(req, res){
@@ -304,11 +310,11 @@ exports.new_event_post = function(req, res){
             return res.render('new-event', {user: utils.getUser(req), message: e.message});
         }
 
-        db.events.save(event, function (err) {
+        db.events.save(event, function (err, event) {
             if (err){
                 res.render('new-event', { user: utils.getUser(req), message: req.flash('error') });
             }else{
-                res.redirect('/');
+                res.redirect('/events/' + event.slug);
             }
         });
     });
@@ -325,11 +331,11 @@ exports.edit_event_post = function(req, res){
             return res.render('new-event', {user: utils.getUser(req), message: e.message});
         }
 
-        db.events.save(event, function (err) {
+        db.events.save(event, function (err, event) {
             if (err){
                 res.render('new-event', { user: utils.getUser(req), message: req.flash('error') });
             }else{
-                res.redirect('/');
+                res.redirect('/events/' + event.slug);
             }
         });
     });

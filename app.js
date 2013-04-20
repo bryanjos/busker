@@ -54,11 +54,10 @@ app.get("/profiles/:slug/events", routes.user_events);
 app.get("/events/create", routes.ensureAuthenticated, routes.new_event);
 app.post("/events/create", routes.ensureAuthenticated, routes.new_event_post);
 
-app.get("/profiles/:performer_slug/events/:event_slug", routes.event);
-app.get("/profiles/:performer_slug/events/:event_slug/edit", routes.ensureAuthenticated, routes.edit_event);
-app.post("/profiles/:performer_slug/events/:event_slug/edit", routes.ensureAuthenticated, routes.edit_event_post);
-
 app.get("/events", routes.events);
+app.get("/events/:event_slug", routes.event);
+app.get("/events/:event_slug/edit", routes.ensureAuthenticated, routes.edit_event);
+app.post("/events/:event_slug/edit", routes.ensureAuthenticated, routes.edit_event_post);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
