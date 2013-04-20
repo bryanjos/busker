@@ -18,26 +18,33 @@ html.no-js
     link(rel='stylesheet', href='//cdn.leafletjs.com/leaflet-0.5/leaflet.css')
     //if lte IE 8
       link(rel='stylesheet', href='//cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css')
+    link(href='http://fonts.googleapis.com/css?family=Noto+Serif:700,400italic,700italic', rel='stylesheet', type='text/css')
   body
-    #page.container
-      header.row
-        .page-header.span12
-          h1.pull-left Buskerue 
-          ul.pull-right
-            li 
-              a(href='/') Home
-            li 
-              a(href='/') Find Street Performers
-            li 
-              a(href='/') Logout
-      block content
-      footer.row
-        hr.span12
-        p.span12 This project was created during the 2013 
-          a(href='#') CODEMKRS
+    #header
+      .container
+        .row
+          .span12
+            h1.pull-left 
+              a(href='/') Buske
+                span rue 
+            ul.navigation.pull-right
+              li 
+                a(href='/') Home
+              li 
+                a(href='/') Find Street Performers
+              li 
+                a(href='/') Logout
+    block content
+    #footer
+      .container
+        .row
+          .span12
+            hr
+            p This project was created during the 2013 
+              a(href='#') CODEMKRS
 
-      script(src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
-      script(src='js/holder/holder.js')
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js')
+    script(src='js/holder/holder.js')
 
-      script
-        window.jQuery || document.write('<script src="javascripts/vendor/jquery-1.9.1.min.js"><\\/script>')
+    script
+      window.jQuery || document.write('<script src="javascripts/vendor/jquery-1.9.1.min.js"><\\/script>')
