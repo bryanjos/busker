@@ -1,22 +1,25 @@
 extends layout
 
 block content
-	h2 New Event for Boot Scatter Black
-	.location
-		label Location Description
-		input(type='text', name='location')
-	#select-point
-	.start-time
-		label Start Time
-		input(type='time', name='starttime')
-	.end-time
-		label End Time
-		input(type='time', name='endtime')
-	.submit-actions
-		a.btn(href='/profile') Add
-	.submit-actions.btn-group
-		a.btn.btn-primary(href='/profile') Update
-		a.btn(href='/profile') Delete
+	.container
+		.row
+			.span12
+				h2 New Event for Boot Scatter Black
+				.location
+					label Location Description
+					input(type='text', name='location')
+				#select-point
+				.start-time
+					label Start Time
+					input(type='time', name='starttime')
+				.end-time
+					label End Time
+					input(type='time', name='endtime')
+				.submit-actions
+					a.btn(href='/profile') Add
+				.submit-actions.btn-group
+					a.btn.btn-primary(href='/profile') Update
+					a.btn(href='/profile') Delete
 
 
 
