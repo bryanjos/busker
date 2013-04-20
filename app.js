@@ -52,6 +52,8 @@ app.get('/user/:username', routes.user_profile);
 app.get("/events", routes.events);
 app.get("/event", routes.event);
 app.get("/create-profile", routes.create_profile);
+app.get("/profile", routes.profile);
+app.get("/new-event", routes.new_event);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

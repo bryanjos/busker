@@ -203,3 +203,9 @@ exports.event = function(req, res){
 exports.create_profile = function(req, res){
     res.render('create-profile');
 }
+exports.profile = function(req, res){
+    res.render('profile');
+}
+exports.new_event = function(req, res){
+    res.render('new-event');
+}
