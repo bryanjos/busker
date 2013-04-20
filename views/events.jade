@@ -2,34 +2,38 @@ extends layout
 
 block content
 	include small-info
-	.container
-		.row
-			.span8
-				#map
-			.span4
-				h2 Today's Performers
-				hr
-				.item
-					h3 
-						a(href='/event') Ridiculus Sit Quam Pharetra
-					p.location Corner of St. Ann and Royal Street
-					p.time 3pm to 5pm
-				.item
-					h3 
-						a(href='/event') Ridiculus Sit Quam Pharetra
-					p.location Corner of St. Ann and Royal Street
-					p.time 3pm to 5pm
-				.item
-					h3 
-						a(href='/event') Ridiculus Sit Quam Pharetra
-					p.location Corner of St. Ann and Royal Street
-					p.time 3pm to 5pm
-	.container
-		.row
-			.span12
-				hr
-				h2 Are you a street performer? 
-					a(href='/auth/twitter') Create a Profile
+	#event
+		.container
+			.row
+				.span8
+					#map
+				.span4
+					h2 Upcoming Performers
+					hr
+					.item
+						.band
+							strong
+								a(href='/event') Ridiculus Sit Quam Pharetra
+						.location Corner of St. Ann and Royal Street
+						.time 3pm to 5pm
+					.item
+						.band
+							strong
+								a(href='/event') Ridiculus Sit Quam Pharetra
+						.location Corner of St. Ann and Royal Street
+						.time 3pm to 5pm
+					.item
+						.band
+							strong
+								a(href='/event') Ridiculus Sit Quam Pharetra
+						.location Corner of St. Ann and Royal Street
+						.time 3pm to 5pm
+		.container
+			.row
+				.span12
+					hr
+					h2 Are you a street performer? 
+						a(href='/auth/twitter') Create a Profile
 
 	script(src='//cdn.leafletjs.com/leaflet-0.5/leaflet.js')
 	script(src='js/events.js')
