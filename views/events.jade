@@ -8,26 +8,15 @@ block content
 				.span8
 					#map
 				.span4
-					h2 Upcoming Performers
+					h2 Now Drawing a Crowd!
 					hr
-					.item
-						.band
-							strong
-								a(href='/event') Ridiculus Sit Quam Pharetra
-						.location Corner of St. Ann and Royal Street
-						.time 3pm to 5pm
-					.item
-						.band
-							strong
-								a(href='/event') Ridiculus Sit Quam Pharetra
-						.location Corner of St. Ann and Royal Street
-						.time 3pm to 5pm
-					.item
-						.band
-							strong
-								a(href='/event') Ridiculus Sit Quam Pharetra
-						.location Corner of St. Ann and Royal Street
-						.time 3pm to 5pm
+					each event in events
+						.item
+							.band
+								strong
+									a(href='/events/#{event.slug}') #{event.user.artist_name}
+							.location #{event.location}
+							.time From #{event.start} to #{event.end}
 		.container
 			.row
 				.span12
