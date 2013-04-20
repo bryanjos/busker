@@ -341,6 +341,10 @@ exports.edit_event_post = function(req, res){
             return res.render('new-event', {user: utils.getUser(req), message: e.message});
         }
 
+        if(event.user.slug != req.user.slug){
+            return res.send(404);
+        }
+
         db.events.save(event, function (err, event) {
             if (err){
                 res.render('new-event', { user: utils.getUser(req), message: req.flash('error') });
