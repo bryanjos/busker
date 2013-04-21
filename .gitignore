@@ -6,3 +6,4 @@ public/pictures
 *.log
 config.js
 start.sh
+.DS_Store
