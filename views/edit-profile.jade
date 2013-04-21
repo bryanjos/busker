@@ -1,0 +1,23 @@
+extends layout
+
+block content
+    include small-info
+    .container
+        .row
+            .span12
+                h2 Edit Street Performer
+                form(method='post', enctype='multipart/form-data')
+                    .artist
+                        input(name='name', type='text', placeholder='Artist or Group Name', value='#{user.artist_name}')
+                    .description
+                        label Description
+                        textarea(name='description')
+                            | #{user.description}
+                    .picture
+                        label Picture
+                        input(name='picture', type='file')
+                    .digital-tip
+                        label Digital Tip Jar Profile URL
+                        input(name='digital_tip_url', type='text', value='#{user.digital_tip_jar_url}')
+                    .submit
+                        input(name='submit', type='submit', class='btn')

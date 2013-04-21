@@ -48,10 +48,10 @@ app.get("/new", routes.ensureAuthenticated, routes.new_profile);
 app.get("/create-profile", routes.ensureAuthenticated, routes.create_profile);
 app.post("/create-profile", routes.ensureAuthenticated, routes.create_profile_post);
 
-app.get("/profiles/:slug", routes.profile);
+app.get("/edit-profile", routes.ensureAuthenticated, routes.edit_profile);
+app.post("/edit-profile", routes.ensureAuthenticated, routes.edit_profile_post);
 
-app.get("/profiles/:slug/edit", routes.ensureAuthenticated, routes.edit_profile);
-app.post("/profiles/:slug/edit", routes.ensureAuthenticated, routes.edit_profile_post);
+app.get("/profiles/:slug", routes.profile);
 
 app.get("/profiles/:slug/events", routes.user_events);
 app.get("/profiles/:slug/events.json", routes.user_events_json);

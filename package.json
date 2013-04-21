@@ -18,6 +18,7 @@
     "mongojs": "~0.7.2",
     "restler": "~2.0.1",
     "passport-twitter": "~0.1.4",
-    "twit": "~1.1.6"
+    "twit": "~1.1.6",
+    "moment": "~2.0.0"
   }
 }

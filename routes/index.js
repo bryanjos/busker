@@ -3,7 +3,8 @@ var mongojs = require('mongojs')
     , TwitterStrategy = require('passport-twitter').Strategy
     , check = require('validator').check
     , utils = require('../utils')
-    , Twit = require('twit');
+    , Twit = require('twit')
+    , moment = require('moment');
 
 
 var db = mongojs(utils.generate_mongo_url(), ['users', 'events' ]);
@@ -15,7 +16,7 @@ db.users.ensureIndex({slug:1} , {unique : true});
 db.events.ensureIndex({slug:1} , {unique : true});
 db.events.ensureIndex({coordinates:"2d"});
 db.events.ensureIndex({"user.slug":1});
-db.events.ensureIndex({start:1,end:1});
+db.events.ensureIndex({start_utc:1,end_utc:1});
 
 var slug_length = 4;
 
@@ -59,6 +60,8 @@ var T = new Twit({
  location,
  start,
  end,
+ start_utc,
+ end_utc,
  user,
  created
  }
@@ -144,6 +147,12 @@ validateNewEvent = function (req, callback) {
         check(req.body.location, 'Location Required').notEmpty();
         check(req.body.coordinates, 'Please click on map for location of event').notEmpty();
 
+        if(!moment(req.body.starttime).isValid())
+            return callback({message: 'Start is not a valid date'}, null);
+
+        if(!moment(req.body.endtime).isValid())
+            return callback({message: 'End is not a valid date'}, null);
+
         var coordinates = JSON.parse(req.body.coordinates);
 
         var event = {};
@@ -151,6 +160,8 @@ validateNewEvent = function (req, callback) {
         event.location = req.body.location;
         event.start = req.body.starttime;
         event.end = req.body.endtime;
+        event.start_utc = moment(req.body.starttime).utc().format("YYYY-MM-DDTHH:mm:ss\\Z");
+        event.end_utc = moment(req.body.endtime).utc().format("YYYY-MM-DDTHH:mm:ss\\Z");
         event.created = Date.now();
         event.slug = utils.generateRandomToken(slug_length);
         event.user = req.user;
@@ -169,13 +180,21 @@ validateUpdateEvent = function (req, callback) {
         check(req.body.location, 'Location Required').notEmpty();
         check(req.body.coordinates, 'Please click on map for location of event').notEmpty();
 
+        if(moment(req.body.starttime).isValid())
+            return callback({message: 'Start is not a valid date'}, null);
+
+        if(moment(req.body.endtime).isValid())
+            return callback({message: 'End is not a valid date'}, null);
+
         db.events.findOne({slug: req.params.slug}, function (error, event) {
             if (event) {
                 var coordinates = JSON.parse(req.body.coordinates);
                 event.coordinates = {lng: coordinates.lng, lat: coordinates.lat};
                 event.location = req.body.location;
-                event.start = req.body.start;
-                event.end = req.body.end;
+                event.start = req.body.starttime;
+                event.end = req.body.endtime;
+                event.start_utc = moment(req.body.starttime).utc().format("YYYY-MM-DDTHH:mm:ss\\Z");
+                event.end_utc = moment(req.body.endtime).utc().format("YYYY-MM-DDTHH:mm:ss\\Z");
                 event.user = req.user;
                 callback(null, event);
 
@@ -277,28 +296,18 @@ exports.profile = function (req, res) {
 };
 
 exports.edit_profile = function (req, res) {
-    db.users.findOne({slug: req.params.slug}, function (err, user) {
-        if (err) {
-            return res.redirect('/');
-        }
-
-        if (user == null || user.slug != req.user.slug) {
-            return res.send(404);
-        }
-
-        res.render('create-profile', {user: utils.getUser(req), message: req.flash('error'), performer: user});
-    });
+    res.render('edit-profile', {user: utils.getUser(req), message: req.flash('error')});
 };
 
 exports.edit_profile_post = function (req, res, next) {
     validateUpdateProfile(req, function (e, user) {
-        if (err) {
-            return res.render('/create-profile', {user: utils.getUser(req), message: e.message});
+        if (e) {
+            return res.render('edit-profile', {user: utils.getUser(req), message: e.message});
         }
 
-        db.users.save(user, function (err, user) {
+        db.users.save(user, function (err) {
             if (err) {
-                res.render('create-profile', { user: utils.getUser(req), message: req.flash('error') });
+                res.render('edit-profile', { user: utils.getUser(req), message: req.flash('error') });
             } else {
                 res.redirect('/profiles/' + user.slug);
             }

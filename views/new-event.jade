@@ -4,7 +4,7 @@ block content
     .container
         .row
             .span12
-                h2 New Event for Boot Scatter Black
+                h2 New Event for #{user.artist_name}
                 form(method='post', enctype='multipart/form-data')
                     .location
                         label Location Description
@@ -12,10 +12,10 @@ block content
                     #map
                     .start-time
                         label Start Time
-                        input(type='time', name='starttime')
+                        input(type='text', name='starttime', id='starttime')
                     .end-time
                         label End Time
-                        input(type='time', name='endtime')
+                        input(type='text', name='endtime', id='endtime')
                     .submit-actions
                         input(name='submit', type='submit', class='btn', value='Add')
                     .submit-actions.btn-group
@@ -26,4 +26,3 @@ block content
 
 
     script(src='//cdn.leafletjs.com/leaflet-0.5/leaflet.js')
-    script(src='/js/new-event.js')
