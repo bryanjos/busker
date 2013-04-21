@@ -28,7 +28,7 @@ exports.generateRandomToken = function(len){
 };
 
 exports.uploadPhoto = function(file, callback){
-    rest.post('http://images.reclis.me', {
+    rest.post(process.env.IMAGE_SERVER, {
         multipart: true,
         data: {
             'image': rest.file(file.path, file.name, file.size, null, file.type)
