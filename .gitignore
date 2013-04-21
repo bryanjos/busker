@@ -5,3 +5,4 @@ public/pictures
 .idea
 *.log
 config.js
+start.sh

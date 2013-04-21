@@ -1,6 +1,5 @@
 var path = require('path')
-    , rest = require('restler')
-    , config = require('../config');
+    , rest = require('restler');
 
 exports.slugify = function(text) {
     text = text.replace(/[^-a-zA-Z0-9,&\s]+/ig, '');
@@ -29,7 +28,7 @@ exports.generateRandomToken = function(len){
 };
 
 exports.uploadPhoto = function(file, callback){
-    rest.post(config.FILE_SERVER, {
+    rest.post('http://images.reclis.me', {
         multipart: true,
         data: {
             'image': rest.file(file.path, file.name, file.size, null, file.type)
@@ -47,5 +46,34 @@ exports.getUser = function(req){
   }else{
     return null;
   }
+};
+
+
+exports.generate_mongo_url = function(){
+    var mongo;
+    switch(process.env.NODE_ENV){
+        case 'production':
+            var env = JSON.parse(process.env.VCAP_SERVICES);
+            mongo = env['mongodb-1.8'][0]['credentials'];
+            break;
+
+
+        default:
+            mongo = {
+                "hostname":"localhost",
+                "port":27017,
+                "username":"",
+                "password":"",
+                "name":"",
+                "db":"busker"
+            };
+            break;
+    }
+
+    if(mongo.username && mongo.password){
+        return "mongodb://" + mongo.username + ":" + mongo.password + "@" + mongo.hostname + ":" + mongo.port + "/" + mongo.db;
+    }else{
+        return "mongodb://" + mongo.hostname + ":" + mongo.port + "/" + mongo.db;
+    }
 };
 

@@ -7,14 +7,18 @@ var express = require('express')
   , MongoDBSession = require('connect-mongodb')
   , http = require('http')
   , flash = require('connect-flash')
-  , config = require('./config')
+  , utils = require('./utils')
   , path = require('path');
 
 
 var app = express();
 
+app.configure('development', function(){
+    app.use(express.errorHandler());
+});
+
 app.configure(function(){
-  app.set('port', config.PORT);
+  app.set('port', process.env.PORT || 9000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'jade');
   app.use(express.favicon());
@@ -22,7 +26,7 @@ app.configure(function(){
   app.use(express.bodyParser({ keepExtension: true }));
   app.use(express.methodOverride());
   app.use(express.cookieParser('sxglhe8m'));
-  app.use(express.session({secret:'sxglhe8m',  store: new MongoDBSession({url: config.DB_NAME})}));
+  app.use(express.session({secret:'sxglhe8m',  store: new MongoDBSession({url: utils.generate_mongo_url()})}));
   app.use(passport.initialize());
   app.use(passport.session());
   app.use(flash());
@@ -31,9 +35,6 @@ app.configure(function(){
   app.use(app.router);
 });
 
-app.configure('development', function(){
-  app.use(express.errorHandler());
-});
 
 app.get('/', routes.index);
 app.get('/about', routes.about);
