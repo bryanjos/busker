@@ -31,7 +31,7 @@ $(document).ready(function(){
         $.getJSON('events.json', function(data) {
         var items = [];
         $.each(data, function(key, val) {
-            var str = "<p><strong><a href='/events/" + val.slug + "'>" + val.user.artist_name + "</a></strong><br /><strong>Location: </strong>" + val.location + "<br /><strong>Time: </strong>" + val.start + "<br /></p>";
+            var str = "<p><strong><a href='/events/" + val.slug + "'>" + val.user.artist_name + "</a></strong><br /><strong>Location: </strong>" + val.location + "<br /><strong>Date: </strong>" + val.start + "<br /></p>";
             L.marker([val.coordinates.lat, val.coordinates.lng]).addTo(map).bindPopup(str).openPopup();
         });
         });
