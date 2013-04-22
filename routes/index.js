@@ -309,7 +309,9 @@ exports.edit_profile_post = function (req, res, next) {
             if (err) {
                 res.render('edit-profile', { user: utils.getUser(req), message: req.flash('error') });
             } else {
-                res.redirect('/profiles/' + user.slug);
+                db.events.update({ "user.slug": req.user.slug}, {$set:{user:req.user}}, {multi:true}, function(err, updated) {
+                    res.redirect('/profiles/' + user.slug);
+                });
             }
         });
     });

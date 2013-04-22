@@ -8929,15 +8929,6 @@ ul.icons li [class*=" icon-"] {
 .icon-folder-open-alt:before {
   content: "\f115";
 }
-@media (min-width: 1200px) {
-  
-}
-@media (max-width: 767px) {
-  
-}
-@media (min-width: 768px) and (max-width: 979px) {
-  
-}
 @media (max-width: 767px) {
   body {
     padding-left: 0px;
@@ -9043,9 +9034,6 @@ ul.icons li [class*=" icon-"] {
     line-height: 34px;
   }
 }
-@media (min-width: 768px) and (max-width: 979px) {
-  
-}
 @media (max-width: 767px) {
   #big-info h2 {
     margin-top: 30px;
@@ -9107,12 +9095,6 @@ ul.icons li [class*=" icon-"] {
     display: none;
   }
 }
-@media (max-width: 767px) {
-  .side-margin-mobile {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-}
 #three-col {
   padding-top: 40px;
 }
@@ -9141,11 +9123,6 @@ ul.icons li [class*=" icon-"] {
   float: left;
   clear: both;
 }
-#event .item {
-  margin: 10px 0;
-  padding: 10px;
-  background-color: #e9e9e9;
-}
 #footer {
   font-size: 18px;
   font-weight: bold;
@@ -9166,4 +9143,41 @@ ul.icons li [class*=" icon-"] {
 #select-point {
   width: 100%;
   height: 300px;
+}
+textarea {
+  width: 600px;
+  height: 300px;
+}
+img.file {
+  display: block;
+}
+a.file {
+  margin-top: 10px;
+}
+#edit-profile .artist,
+#edit-profile .description,
+#edit-profile .picture,
+#edit-profile .digital-tip {
+  margin-bottom: 10px;
+}
+#event .time,
+#event .tip,
+#event .tweet {
+  margin-bottom: 10px;
+}
+@media (max-width: 767px) {
+  #events .events-listing {
+    display: none;
+  }
+}
+#profile img {
+  margin-bottom: 20px;
+}
+@media (max-width: 767px) {
+  #profile,
+  #about,
+  #event {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
