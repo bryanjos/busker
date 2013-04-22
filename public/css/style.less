@@ -13,6 +13,23 @@ body{
 	}
 }
 
+.button{
+	background-color:@orange;
+	color:#322508;
+	display:inline-block;
+	border-radius:10px;
+	text-transform: uppercase;
+	font-weight: bold;
+	padding:10px 20px;
+	font-size:12px;
+	&:hover{
+		background-color:#cccd;
+		text-decoration: none;
+		color:#222;
+	}
+
+}
+
 
 .heading-font{
 	font-family: 'Noto Serif', serif;
@@ -86,6 +103,9 @@ body{
 				}
 			}
 		}
+		@media (min-width: 768px) and (max-width: 979px) {
+			display:block;
+		}
 	}
 }
 
@@ -131,15 +151,10 @@ body{
 		}
 	}
 	a.cta{
+		.button;
 		box-shadow:1px 1px 7px #000;
 		margin-top:40px;
-		background-color:@orange;
-		color:#322508;
 		padding:20px 30px;
-		display:inline-block;
-		border-radius:10px;
-		text-transform: uppercase;
-		font-weight: bold;
 	}
 }
 
@@ -209,7 +224,7 @@ body{
 }
 
 textarea{
-	width:600px;
+	width:90%;
 	height:300px;
 }
 
@@ -245,7 +260,7 @@ a.file{
 	}
 }
 
-#profile, #about, #event{
+#profile, #about, #event, #edit-profile, #new-event{
 	@media (max-width: 767px) {
 		padding-left:10px;
 		padding-right:10px;
