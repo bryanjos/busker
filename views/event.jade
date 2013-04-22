@@ -18,7 +18,7 @@ block content
 					|  From <span class='starttime'>#{event.start}</span> to <span class='endtime'>#{event.end}</span>
 				- if(event.user.digital_tip_jar_url)
 					.tip
-						a.btn.btn-primary(target='_blank', href='#{event.user.digital_tip_jar_url}') Give #{event.user.artist_name} a Tip
+						a.button(target='_blank', href='#{event.user.digital_tip_jar_url}') Give #{event.user.artist_name} a Tip
 			.span3
 				h2.twitter-activity Twitter Activity
 				each tweet in tweets
