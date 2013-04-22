@@ -379,7 +379,7 @@ exports.event = function (req, res) {
             return res.send(404);
         }
 
-        T.get('search/tweets', { q: '#buskerue' + event.slug }, function (err, reply) {
+        T.get('search/tweets', { q: '#buskerue_' + event.slug }, function (err, reply) {
             res.render('event', {user: utils.getUser(req), message: req.flash('error'), event: event, tweets: reply.statuses});
         });
     });

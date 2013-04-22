@@ -60,7 +60,7 @@ $(document).ready(function(){
 
 
     $(":file").each(function(){
-        if($(this).attr("value") != ''){$(this).before("<img class='file' src='" + $(this).attr("value") + "' width='150' />");}
+        if($(this).attr("value")){$(this).before("<img class='file' src='" + $(this).attr("value") + "?w=150' />");}
         var wrapper = $('<div/>').css({height:0,width:0,'overflow':'hidden'});
         $(this).before("<a class='btn file'>Choose File</a>").wrap(wrapper).hide();
         $(this).parent().prev().click(function(){
