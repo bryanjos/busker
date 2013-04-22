@@ -24,18 +24,18 @@ $(document).ready(function(){
         });
         L.tileLayer('http://{s}.tile.cloudmade.com/d4fc77ea4a63471cab2423e66626cbb6/997/256/{z}/{x}/{y}.png', {}).addTo(map);
 
+        if($("#new-event").length){
+            var popup = L.popup();
 
-        var popup = L.popup();
+            function onMapClick(e) {
+                $("#coordinates").val(JSON.stringify(e.latlng));
+                popup.setLatLng(e.latlng);
+                popup.setContent("You clicked the map at " + e.latlng.toString());
+                popup.openOn(map);
+            }
 
-        function onMapClick(e) {
-            $("#coordinates").val(JSON.stringify(e.latlng));
-            popup.setLatLng(e.latlng);
-            popup.setContent("You clicked the map at " + e.latlng.toString());
-            popup.openOn(map);
+            map.on('click', onMapClick);
         }
-
-        map.on('click', onMapClick);
-
 
         $.getJSON('events.json', function(data) {
         var items = [];
