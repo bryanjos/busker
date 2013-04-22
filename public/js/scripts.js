@@ -40,7 +40,7 @@ $(document).ready(function(){
         $.getJSON('events.json', function(data) {
         var items = [];
         $.each(data, function(key, val) {
-            var str = "<a href='/profiles/" + val.user.slug + "'>" + val.user.artist_name + "</a>";
+            var str = "<a href='/events/" + val.slug + "'>" + val.user.artist_name + "</a>";
             L.marker([val.coordinates.lat, val.coordinates.lng]).addTo(map).bindPopup(str).openPopup();
         });
         });
@@ -48,6 +48,28 @@ $(document).ready(function(){
 
     $("#starttime").val(moment().format("MM/DD/YYYY hh:mm A"));
     $("#endtime").val(moment().hours(moment().hour()+1).format("MM/DD/YYYY hh:mm A"));
+        
+    $(".date").each(function(){
+       $(this).html(moment($(this).html()).format("MMMM DD, YYYY")); 
+    });
+
+    $(".starttime, .endtime").each(function(){
+        $(this).html(moment($(this).html()).format("hh:mm A"));
+    });
+
+
+
+    $(":file").each(function(){
+        if($(this).attr("value") != ''){$(this).before("<img class='file' src='" + $(this).attr("value") + "' width='150' />");}
+        var wrapper = $('<div/>').css({height:0,width:0,'overflow':'hidden'});
+        $(this).before("<a class='btn file'>Choose File</a>").wrap(wrapper).hide();
+        $(this).parent().prev().click(function(){
+            $(this).next().find(":file").click();
+        }).show();
+    });
+
+
+
 });
 
 function urlify(text) {

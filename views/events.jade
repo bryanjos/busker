@@ -2,21 +2,15 @@ extends layout
 
 block content
 	include small-info
-	#event
-		.container
-			.row
-				.span8
-					#map
-				.span4
-					h2 Now Drawing a Crowd!
-					hr
-					each event in events
-						.item
-							.band
-								strong
-									a(href='/events/#{event.slug}') #{event.user.artist_name}
-							.location #{event.location}
-							.time From #{event.start} to #{event.end}
+	#events.container
+		.row
+			.span8
+				#map
+			.events-listing.span4
+				h2 Now Drawing a Crowd!
+				each event in events
+					include eventitem
+	- if(!user)
 		.container
 			.row
 				.span12

@@ -2,33 +2,23 @@ extends layout
 
 block content
 	include small-info
-	.side-margin-mobile
-		.container
-			.row
-				.span5
-					h2 #{performer.artist_name}
-					.description #{performer.description}
-					p 
-						- if(performer.digital_tip_jar_url)
-							a.btn.btn-primary(target='_blank', href='#{performer.digital_tip_jar_url}') Give a Tip
-				.span3
-					h3 Events
-					each event in events
-						.item
-							.band
-								strong
-									a(href='/events/#{event.slug}') #{event.user.artist_name}
-							.location #{event.location}
-							.time From #{event.start} to #{event.end}
-							hr
-				.span4
-					- if(performer.picture)
-						img(src="#{performer.picture}")
-					.action
-						ul
-							li 
-								a(href='/edit-profile') Edit Account
-							li 
-								a(href='/profiles/#{performer.slug}/events') My Events
-							li 
-								a(href='/events/create') Create Event
+	#profile.container
+		.row
+			.span5
+				h2 #{performer.artist_name}
+				.description #{performer.description}
+			.span3
+				h3 Events
+				each event in events
+					include eventitem
+			.span4
+				- if(performer.picture)
+					img(src="#{performer.picture}")
+				- if(user)
+					ul.nav.well
+						li 
+							a(href='/edit-profile') Edit Account
+						li 
+							a(href='/profiles/#{performer.slug}/events') My Events
+						li 
+							a(href='/events/create') Create Event

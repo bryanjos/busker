@@ -6,12 +6,7 @@
 @orange: #ffbb29;
 
 
-@media (min-width: 1200px) {}
-@media (max-width: 767px) {}
-@media (min-width: 768px) and (max-width: 979px) {}
-
 body{
-
 	@media (max-width: 767px) {
 			padding-left:0px;
 			padding-right:0px;
@@ -28,7 +23,6 @@ body{
 	background-image:url('/img/bkgd.png');
 	background-color:#191a21;
 	background-repeat: repeat-x;
-	//height:46px;
 	padding-top:20px;
 	@media (max-width: 767px) {
 		padding-left:10px;
@@ -108,16 +102,11 @@ body{
 		font-size:36px;
 		text-align: center;
 		margin-top:80px;
-
 		@media (max-width: 1200px) {
 			margin-top:60px; 
 			font-size:30px;
 			line-height: 34px;
 		}
-		@media (min-width: 768px) and (max-width: 979px) { 
-			
-		}
-
 		@media (max-width: 767px) {
 			margin-top:30px;
 		}
@@ -140,7 +129,6 @@ body{
 			line-height: 23px;
 			font-size: 19px;
 		}
-
 	}
 	a.cta{
 		box-shadow:1px 1px 7px #000;
@@ -175,13 +163,7 @@ body{
 		display:none;
 	}
 }
-.side-margin-mobile{
-	@media (max-width: 767px) {
-		padding-left:10px;
-		padding-right:10px;
-	}
 
-}
 #three-col{
 	padding-top:40px;
 	@media (max-width: 767px) {
@@ -203,13 +185,6 @@ body{
 	p{ float:left; clear:both; }
 }
 
-#event{
-	.item{
-		margin:10px 0;
-		padding:10px;
-		background-color:#e9e9e9;
-	}
-}
 
 #footer{
 	font-size:18px;
@@ -231,4 +206,48 @@ body{
 #select-point{
 	width:100%;
 	height:300px;
+}
+
+textarea{
+	width:600px;
+	height:300px;
+}
+
+img.file{
+	display:block;
+}
+
+a.file{
+	margin-top:10px;
+}
+
+#edit-profile{
+	.artist, .description, .picture, .digital-tip{
+		margin-bottom:10px;
+	}
+}
+
+#event{
+	.time, .tip, .tweet{
+		margin-bottom:10px;
+	}
+}
+
+#events{
+	@media (max-width: 767px) {
+		.events-listing{display: none;}
+	}
+}
+
+#profile{
+	img{
+		margin-bottom:20px;
+	}
+}
+
+#profile, #about, #event{
+	@media (max-width: 767px) {
+		padding-left:10px;
+		padding-right:10px;
+	}
 }

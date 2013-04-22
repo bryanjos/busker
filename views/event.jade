@@ -2,30 +2,32 @@ extends layout
 
 block content
 	include small-info
-	.container
+	#event.container
 		.row
-			.span4
-				img(src="#{event.user.picture}")
 			.span5
 				h2.street-performer #{event.user.artist_name}
 				p #{event.user.description}
 				.location 
 					strong Location
 					|  #{event.location}
+				.data
+					strong Date 
+					span.date #{event.start}
 				.time 
 					strong Time
-					|  From #{event.start} to #{event.end}
-					<br><Br>
-				.give-a-tip
-					a.btn(href='#') Give a Tip
-					<Br><br>
-				.tweet
-					a(href="https://twitter.com/intent/tweet?button_hashtag=buskerue#{event.slug}", class="twitter-hashtag-button", data-size="large", data-related="buskerue", data-url="http://buskerue.com/event/#{event.slug}") Tweet #buskerue123
-					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+					|  From <span class='starttime'>#{event.start}</span> to <span class='endtime'>#{event.end}</span>
+				- if(event.user.digital_tip_jar_url)
+					.tip
+						a.btn.btn-primary(target='_blank', href='#{event.user.digital_tip_jar_url}') Give #{event.user.artist_name} a Tip
 			.span3
 				h2.twitter-activity Twitter Activity
-		each tweet in tweets
-			.item
-				p #{tweet.text}
-				p #{tweet.screen_name}
-								hr
+				each tweet in tweets
+					.item
+						p #{tweet.text}
+						p #{tweet.screen_name}
+				.tweet
+					a(href="https://twitter.com/intent/tweet?button_hashtag=buskerue_#{event.slug}", class="twitter-hashtag-button", data-size="large", data-related="buskerue", data-url="http://buskerue.com/event/#{event.slug}") Tweet #buskerue_#{event.slug}
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+			- if(event.user.picture)
+				.span4
+						img(src="#{event.user.picture}")

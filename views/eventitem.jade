@@ -1,0 +1,8 @@
+.item
+	.band
+		strong
+			a(href='/events/#{event.slug}') #{event.user.artist_name}
+	.location #{event.location}
+	.date #{event.start}
+	.time From <span class='starttime'>#{event.start}</span> to <span class='endtime'>#{event.end}</span>
+	hr
