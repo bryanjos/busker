@@ -6,7 +6,7 @@ block content
 		.row
 			.span5
 				h2.street-performer #{event.user.artist_name}
-				p #{event.user.description}
+				p!= event.user.description.replace(/\n/g, '<br />')
 				.location 
 					strong Location
 					|  #{event.location}
@@ -18,7 +18,7 @@ block content
 					|  From <span class='starttime'>#{event.start}</span> to <span class='endtime'>#{event.end}</span>
 				- if(event.user.digital_tip_jar_url)
 					.tip
-						a.btn.btn-primary(target='_blank', href='#{event.user.digital_tip_jar_url}') Give #{event.user.artist_name} a Tip
+						a.button(target='_blank', href='#{event.user.digital_tip_jar_url}') Give #{event.user.artist_name} a Tip
 			.span3
 				h2.twitter-activity Twitter Activity
 				each tweet in tweets
@@ -30,4 +30,4 @@ block content
 					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 			- if(event.user.picture)
 				.span4
-						img(src="#{event.user.picture}")
+						img(src="#{event.user.picture}?w=370")

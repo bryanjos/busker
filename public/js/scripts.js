@@ -1,14 +1,5 @@
 $(document).ready(function(){
 
-	var windowChange;
-	$(window).resize(function(){
-
-		window.clearTimeout(windowChange);
-		windowChange = window.setTimeout(function(){
-			console.log('resize map');
-		}, 500);
-
-	});
 
 	$(".mobile-menu").click(function(){
 		$('.navigation').slideToggle();
@@ -40,7 +31,7 @@ $(document).ready(function(){
         $.getJSON('events.json', function(data) {
         var items = [];
         $.each(data, function(key, val) {
-            var str = "<a href='/events/" + val.slug + "'>" + val.user.artist_name + "</a>";
+            var str = "<p><strong><a href='/events/" + val.slug + "'>" + val.user.artist_name + "</a></strong><br /><strong>Location: </strong>" + val.location + "<br /><strong>Date: </strong>" + val.start + "<br /></p>";
             L.marker([val.coordinates.lat, val.coordinates.lng]).addTo(map).bindPopup(str).openPopup();
         });
         });
@@ -60,9 +51,9 @@ $(document).ready(function(){
 
 
     $(":file").each(function(){
-        if($(this).attr("value") != ''){$(this).before("<img class='file' src='" + $(this).attr("value") + "' width='150' />");}
+        if($(this).attr("value")){$(this).before("<img class='file' src='" + $(this).attr("value") + "?w=150' />");}
         var wrapper = $('<div/>').css({height:0,width:0,'overflow':'hidden'});
-        $(this).before("<a class='btn file'>Choose File</a>").wrap(wrapper).hide();
+        $(this).before("<a class='button file'>Choose File</a>").wrap(wrapper).hide();
         $(this).parent().prev().click(function(){
             $(this).next().find(":file").click();
         }).show();

@@ -5,4 +5,5 @@ export TWITTER_ACCESS_TOKEN=YOUR_TWITTER_ACCESS_TOKEN
 export TWITTER_TOKEN_SECRET=YOUR_TWITTER_TOKEN_SECRET
 export TWITTER_CALLBACK=http://localhost:9000/auth/twitter/callback
 export IMAGE_SERVER=http://localhost:9100
+export GOOGLE_ANALYTICS=UA-XXXXXXXX-X
 node app.js
