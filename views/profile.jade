@@ -6,7 +6,8 @@ block content
 		.row
 			.span5
 				h2 #{performer.artist_name}
-				.description #{performer.description}
+				p.description!= performer.description.replace(/\n/g, '<br />')
+
 			.span3
 				h3 Events
 				each event in events

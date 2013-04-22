@@ -6,7 +6,7 @@ block content
 		.row
 			.span5
 				h2.street-performer #{event.user.artist_name}
-				p #{event.user.description}
+				p!= event.user.description.replace(/\n/g, '<br />')
 				.location 
 					strong Location
 					|  #{event.location}
