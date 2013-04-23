@@ -285,7 +285,8 @@ exports.profile = function (req, res) {
             return res.send(404);
         }
 
-        db.events.find({ "user.slug": user.slug}, function (err, events) {
+        var today = moment().subtract('days',1).utc().toDate();
+        db.events.find({ "user.slug": user.slug, start_utc:{$gte: today}},{},{limit:20}, function (err, events) {
             if (err) {
                 return res.redirect('/');
             }
@@ -339,7 +340,8 @@ exports.delete_profile_post = function (req, res, next) {
 
 
 exports.user_events = function (req, res) {
-    db.events.find({ "user.slug": req.params.slug}, function (err, events) {
+    var today = moment().subtract('days',1).utc().toDate();
+    db.events.find({ "user.slug": req.params.slug, start_utc:{$gte: today}},{},{limit:20}, function (err, events) {
         if (err) {
             return res.redirect('/');
         }
@@ -349,7 +351,8 @@ exports.user_events = function (req, res) {
 };
 
 exports.user_events_json = function (req, res) {
-    db.events.find({ "user.slug": req.params.slug}, function (err, events) {
+    var today = moment().subtract('days',1).utc().toDate();
+    db.events.find({ "user.slug": req.params.slug, start_utc:{$gte: today}},{},{limit:20}, function (err, events) {
         if (err) {
             res.json(500, err);
         }
@@ -365,7 +368,8 @@ exports.user_events_json = function (req, res) {
 };
 
 exports.events = function (req, res) {
-    db.events.find({}, function (err, events) {
+    var today = moment().subtract('days',1).utc().toDate();
+    db.events.find({start_utc:{$gte: today}},{},{limit:20}, function (err, events) {
         if (err) {
             return res.redirect('/');
         }
@@ -375,7 +379,8 @@ exports.events = function (req, res) {
 };
 
 exports.events_json = function (req, res) {
-    db.events.find({}, function (err, events) {
+    var today = moment().subtract('days',1).utc().toDate();
+    db.events.find({start_utc:{$gte: today}},{},{limit:20}, function (err, events) {
         if (err) {
             res.json(500, err);
         }
