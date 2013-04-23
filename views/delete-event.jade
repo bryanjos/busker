@@ -1,0 +1,11 @@
+extends layout
+
+block content
+	include small-info
+	#delete-event.container
+		.row
+			.span12
+				h2 Are you sure you want to delete this event?
+				form(method='post', action='/events/#{event_slug}/delete')
+					input(type='hidden', value='#{event_slug}')
+					input.btn.btn-warning(type='submit', value='Delete This Event')

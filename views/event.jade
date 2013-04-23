@@ -19,6 +19,9 @@ block content
 				- if(event.user.digital_tip_jar_url)
 					.tip
 						a.button(target='_blank', href='#{event.user.digital_tip_jar_url}') Give #{event.user.artist_name} a Tip
+				- if(user)
+					.user
+						a.button(href='/events/#{event.slug}/delete') Delete Event
 			.span3
 				h2.twitter-activity Twitter Activity
 				each tweet in tweets

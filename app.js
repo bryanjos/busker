@@ -67,6 +67,8 @@ app.get("/events.json", routes.events_json);
 app.get("/events/:event_slug", routes.event);
 app.get("/events/:event_slug/edit", routes.ensureAuthenticated, routes.edit_event);
 app.post("/events/:event_slug/edit", routes.ensureAuthenticated, routes.edit_event_post);
+app.get("/events/:event_slug/delete", routes.ensureAuthenticated, routes.delete_event);
+app.post("/events/:event_slug/delete", routes.ensureAuthenticated, routes.delete_event_post);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
