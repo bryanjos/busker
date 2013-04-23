@@ -52,6 +52,8 @@ app.post("/create-profile", routes.ensureAuthenticated, routes.create_profile_po
 app.get("/edit-profile", routes.ensureAuthenticated, routes.edit_profile);
 app.post("/edit-profile", routes.ensureAuthenticated, routes.edit_profile_post);
 
+app.post("/delete-profile", routes.ensureAuthenticated, routes.delete_profile_post);
+
 app.get("/profiles/:slug", routes.profile);
 
 app.get("/profiles/:slug/events", routes.user_events);

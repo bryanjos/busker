@@ -8935,6 +8935,21 @@ ul.icons li [class*=" icon-"] {
     padding-right: 0px;
   }
 }
+.button {
+  background-color: #ffbb29;
+  color: #322508;
+  display: inline-block;
+  border-radius: 10px;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 10px 20px;
+  font-size: 12px;
+}
+.button:hover {
+  background-color: #ccc;
+  text-decoration: none;
+  color: #222;
+}
 .heading-font {
   font-family: 'Noto Serif', serif;
 }
@@ -9013,6 +9028,11 @@ ul.icons li [class*=" icon-"] {
     color: #ffbb29;
   }
 }
+@media (min-width: 768px) and (max-width: 979px) {
+  #header .navigation {
+    display: block;
+  }
+}
 #big-info {
   background-image: url('/img/banner.png');
   background-size: 100% 100%;
@@ -9063,15 +9083,22 @@ ul.icons li [class*=" icon-"] {
   }
 }
 #big-info a.cta {
-  box-shadow: 1px 1px 7px #000;
-  margin-top: 40px;
   background-color: #ffbb29;
   color: #322508;
-  padding: 20px 30px;
   display: inline-block;
   border-radius: 10px;
   text-transform: uppercase;
   font-weight: bold;
+  padding: 10px 20px;
+  font-size: 12px;
+  box-shadow: 1px 1px 7px #000;
+  margin-top: 40px;
+  padding: 20px 30px;
+}
+#big-info a.cta:hover {
+  background-color: #ccc;
+  text-decoration: none;
+  color: #222;
 }
 #small-info {
   background-image: url('/img/banner.png');
@@ -9145,7 +9172,7 @@ ul.icons li [class*=" icon-"] {
   height: 300px;
 }
 textarea {
-  width: 600px;
+  width: 90%;
   height: 300px;
 }
 img.file {
@@ -9176,7 +9203,9 @@ a.file {
 @media (max-width: 767px) {
   #profile,
   #about,
-  #event {
+  #event,
+  #edit-profile,
+  #new-event {
     padding-left: 10px;
     padding-right: 10px;
   }
