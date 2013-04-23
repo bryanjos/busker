@@ -160,8 +160,8 @@ validateNewEvent = function (req, callback) {
         event.location = req.body.location;
         event.start = req.body.starttime;
         event.end = req.body.endtime;
-        event.start_utc = moment(req.body.starttime).utc().format("YYYY-MM-DDTHH:mm:ss\\Z");
-        event.end_utc = moment(req.body.endtime).utc().format("YYYY-MM-DDTHH:mm:ss\\Z");
+        event.start_utc = moment(req.body.starttime).utc().toDate();
+        event.end_utc = moment(req.body.endtime).utc().toDate();
         event.created = Date.now();
         event.slug = utils.generateRandomToken(slug_length);
         event.user = req.user;
@@ -193,8 +193,8 @@ validateUpdateEvent = function (req, callback) {
                 event.location = req.body.location;
                 event.start = req.body.starttime;
                 event.end = req.body.endtime;
-                event.start_utc = moment(req.body.starttime).utc().format("YYYY-MM-DDTHH:mm:ss\\Z");
-                event.end_utc = moment(req.body.endtime).utc().format("YYYY-MM-DDTHH:mm:ss\\Z");
+                event.start_utc = moment(req.body.starttime).utc().toDate();
+                event.end_utc = moment(req.body.endtime).utc().toDate();
                 event.user = req.user;
                 callback(null, event);
 
@@ -309,10 +309,32 @@ exports.edit_profile_post = function (req, res, next) {
             if (err) {
                 res.render('edit-profile', { user: utils.getUser(req), message: req.flash('error') });
             } else {
-                res.redirect('/profiles/' + user.slug);
+                db.events.update({ "user.slug": req.user.slug}, {$set:{user:req.user}}, {multi:true}, function(err, updated) {
+                    res.redirect('/profiles/' + user.slug);
+                });
             }
         });
     });
+};
+
+exports.delete_profile_post = function (req, res, next) {
+    db.events.remove({ "user.slug": req.user.slug}, function (err) {
+        if (err) {
+            res.redirect('/profiles/' + user.slug);
+        }
+
+        db.users.remove(req.user, function (err) {
+            if (err) {
+                res.redirect('/profiles/' + user.slug);
+            } else {
+
+                req.logout();
+                res.redirect('/');
+            }
+        });
+    });
+
+
 };
 
 
