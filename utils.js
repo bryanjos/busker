@@ -18,7 +18,7 @@ exports.getExtension = function(filename) {
 };
 
 exports.generateRandomToken = function(len){
-    var chars = "_!abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
+    var chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
         token = '';
     for ( var x = 0; x < len; x++ ) {
         var i = Math.floor( Math.random() * 62 );

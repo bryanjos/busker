@@ -320,7 +320,8 @@ exports.edit_profile_post = function (req, res, next) {
 
 exports.delete_profile = function(req, res){
     res.render('delete-profile', { message: null, user: utils.getUser(req) });
-}
+};
+
 exports.delete_profile_post = function (req, res, next) {
     db.events.remove({ "user.slug": req.user.slug}, function (err) {
         if (err) {
