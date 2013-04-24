@@ -473,10 +473,10 @@ exports.edit_event_post = function (req, res) {
 
 exports.delete_event = function(req, res){
     res.render('delete-event', { message: null, user: utils.getUser(req), event_slug: req.params.event_slug });
-}
+};
 
 exports.delete_event_post = function (req, res, next) {
-    db.events.remove({ "slug": req.params.slug }, function (err) {
+    db.events.remove({ "slug": req.params.event_slug }, function (err) {
       if(err){
         res.redirect("/events/#{req.params.slug}")
       } else{
