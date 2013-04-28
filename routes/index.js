@@ -113,6 +113,35 @@ passport.deserializeUser(function (twitter_id, done) {
     });
 });
 
+
+validateNewProfile = function (req, callback) {
+    try {
+        check(req.body.name, 'Artist Name Required').notEmpty();
+        check(req.body.type, 'Must choose a type').notNull();
+
+        req.user.artist_name = req.body.name;
+        req.user.description = req.body.description;
+        req.user.digital_tip_jar_url = req.body.digital_tip_url;
+        req.user.type = req.body.type;
+
+        if (req.files.picture.name != '') {
+            utils.uploadPhoto(req.files.picture, function (err, data) {
+                if (err) {
+                    callback(err, null);
+                }
+
+                req.user.picture = data;
+                callback(null, req.user);
+            });
+        } else {
+            callback(null, req.user);
+        }
+
+    } catch (e) {
+        callback(e, null);
+    }
+};
+
 validateUpdateProfile = function (req, callback) {
     try {
         check(req.body.name, 'Artist Name Required').notEmpty();
@@ -260,7 +289,7 @@ exports.create_profile = function (req, res) {
 };
 
 exports.create_profile_post = function (req, res) {
-    validateUpdateProfile(req, function (e, user) {
+    validateNewProfile(req, function (e, user) {
         if (e) {
             return res.render('create-profile', {user: utils.getUser(req), message: e.message});
         }
@@ -344,6 +373,9 @@ exports.delete_profile_post = function (req, res, next) {
 
 
 exports.user_events = function (req, res) {
+    if(req.user.type == 'player')
+        return res.send(404);
+
     var today = moment().subtract('days',1).utc().toDate();
     db.events.find({ "user.slug": req.params.slug, start_utc:{$gte: today}},{},{limit:20}, function (err, events) {
         if (err) {
@@ -355,6 +387,9 @@ exports.user_events = function (req, res) {
 };
 
 exports.user_events_json = function (req, res) {
+    if(req.user.type == 'player')
+        return res.send(404);
+
     var today = moment().subtract('days',1).utc().toDate();
     db.events.find({ "user.slug": req.params.slug, start_utc:{$gte: today}},{},{limit:20}, function (err, events) {
         if (err) {
@@ -417,10 +452,16 @@ exports.event = function (req, res) {
 };
 
 exports.new_event = function (req, res) {
+    if(req.user.type == 'player')
+        return res.send(404);
+
     res.render('new-event', {user: utils.getUser(req), message: null});
 };
 
 exports.new_event_post = function (req, res) {
+    if(req.user.type == 'player')
+        return res.send(404);
+
     validateNewEvent(req, function (e, event) {
         if (e) {
             return res.render('new-event', {user: utils.getUser(req), message: e.message});
@@ -438,6 +479,10 @@ exports.new_event_post = function (req, res) {
 
 
 exports.edit_event = function (req, res) {
+    if(req.user.type == 'player')
+        return res.send(404);
+
+
     db.events.findOne({slug: req.params.event_slug, "user.slug": req.user.slug}, function (err, event) {
         if (err) {
             return res.redirect('/');
@@ -452,6 +497,9 @@ exports.edit_event = function (req, res) {
 };
 
 exports.edit_event_post = function (req, res) {
+    if(req.user.type == 'player')
+        return res.send(404);
+
     validateUpdateEvent(req, function (e, event) {
         if (e) {
             return res.render('new-event', {user: utils.getUser(req), message: e.message});
@@ -472,10 +520,16 @@ exports.edit_event_post = function (req, res) {
 };
 
 exports.delete_event = function(req, res){
+    if(req.user.type == 'player')
+        return res.send(404);
+
     res.render('delete-event', { message: null, user: utils.getUser(req), event_slug: req.params.event_slug });
 };
 
 exports.delete_event_post = function (req, res, next) {
+    if(req.user.type == 'player')
+        return res.send(404);
+
     db.events.remove({ "slug": req.params.event_slug }, function (err) {
       if(err){
         res.redirect("/events/#{req.params.slug}")

@@ -5,16 +5,23 @@ block content
 	#create-profile.container
 		.row
 			.span12
-				h2 Create Street Performer
+				h2 Create Profile
 				form(method='post', enctype='multipart/form-data')
 					.artist
-						input(name='name', type='text', placeholder='Artist or Group Name')
+						input(name='name', type='text', placeholder='Name')
 					.description
 						label Description
 						textarea(name='description')
 					.picture
 						label Picture
 						input(name='picture', type='file')
+					.type
+						label I am a
+						input(name='type', type='radio', value='performer') 
+						span Performer
+						br
+						input(name='type', type='radio', value='player')
+						span Player
 					.digital-tip
 						label Digital Tip Jar Profile URL
 						input(name='digital_tip_url', type='text')

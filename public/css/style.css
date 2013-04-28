@@ -9182,9 +9182,15 @@ a.file {
   margin-top: 10px;
 }
 #edit-profile .artist,
+#create-profile .artist,
 #edit-profile .description,
+#create-profile .description,
 #edit-profile .picture,
-#edit-profile .digital-tip {
+#create-profile .picture,
+#edit-profile .digital-tip,
+#create-profile .digital-tip,
+#edit-profile .type,
+#create-profile .type {
   margin-bottom: 10px;
 }
 #event .time,
@@ -9209,4 +9215,7 @@ a.file {
     padding-left: 10px;
     padding-right: 10px;
   }
+}
+.type input[type="radio"] {
+  margin-right: 5px;
 }
